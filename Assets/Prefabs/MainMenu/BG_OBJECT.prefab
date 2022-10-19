@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5364334377999030515}
   - component: {fileID: 5364334377999030514}
-  - component: {fileID: 6038481966338593152}
   m_Layer: 0
   m_Name: BackOfCard
   m_TagString: Untagged
@@ -85,20 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6038481966338593152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5364334377999030508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78539ff8d2e7cc147882a5fdeb9a12c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fade: 0
-  timeElapsed: 0
 --- !u!1 &5364334378562875353
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +96,6 @@ GameObject:
   - component: {fileID: 5364334378562875352}
   - component: {fileID: 5364334378562875357}
   - component: {fileID: 5364334378562875356}
-  - component: {fileID: -9116054055613406621}
   m_Layer: 0
   m_Name: BG_OBJECT
   m_TagString: Untagged
@@ -223,17 +207,3 @@ MonoBehaviour:
   zPerSec: 0.01
   xPerSec: 0.01
   yPerSec: 0.005
---- !u!114 &-9116054055613406621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5364334378562875353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78539ff8d2e7cc147882a5fdeb9a12c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fade: 0
-  timeElapsed: 0

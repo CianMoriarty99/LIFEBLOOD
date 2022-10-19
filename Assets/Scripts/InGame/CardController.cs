@@ -90,7 +90,7 @@ public class CardController : MonoBehaviour
 
     void AddCardToBattleOrder()
     {
-        if ( lbm.phase == LifebloodManager.PHASE.BATTLEPHASE && hasntAddedSpellsYet && powerLevel != 0 )
+        if ( lbm && lbm.phase == LifebloodManager.PHASE.BATTLEPHASE && hasntAddedSpellsYet && powerLevel != 0 )
         {
             Spell c = card.spells[powerLevel];
             lbm.spellOrder.Add((this, c.animationTime, c.subPhase));
