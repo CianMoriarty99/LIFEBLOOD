@@ -36,16 +36,6 @@ public class FullScreenCardController : MonoBehaviour
             }
             spriteR.sprite = card.artwork[0];
             cardName.text = card.cardName;
-            //health.text = "Health: " + card.health.ToString();
-            //energyCost.text = "Cost: " + card.energyCost.ToString();
-            //damage.text = "Damage: " + card.baseDamage.ToString();
-            //if(card.spells.Length > 3)
-            //{
-            //    passiveDesc.text = card.spells[0].desc;
-            //    e1Desc.text = card.spells[1].desc;
-            //    e2Desc.text = card.spells[2].desc;
-            //    e3Desc.text = card.spells[3].desc;
-            //}
 
         }
     }

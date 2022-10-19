@@ -16,8 +16,6 @@ public class LifebloodManager : MonoBehaviour
     public int lifeblood, maxLifeblood, playCostThisTurn;
     public TextMeshPro lifebloodText;
 
-    public GameObject bloodBar;
-
     public float heightMultiplier;
 
     public Vector3 startingPosition;
@@ -43,7 +41,6 @@ public class LifebloodManager : MonoBehaviour
     {
         instance = this;
         heightMultiplier = 0;
-        startingPosition = bloodBar.transform.position;
         gm = GameManager.instance;
         lifeblood = gm.lifeblood;
         maxLifeblood = gm.maxLifeblood;
@@ -56,7 +53,6 @@ public class LifebloodManager : MonoBehaviour
 
         lifebloodText.text = (lifeblood - playCostThisTurn).ToString();
 
-        bloodBar.transform.position = new Vector3(startingPosition.x - ((maxLifeblood - lifeblood) / distancePerLifeBloodStep), startingPosition.y, startingPosition.z);
         if (playCostThisTurn > 0)
         {
             lifebloodText.color = Color.red;

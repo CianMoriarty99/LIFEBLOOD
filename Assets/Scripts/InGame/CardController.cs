@@ -256,7 +256,7 @@ public class CardController : MonoBehaviour
 
     void DropCard()
     {
-        this.transform.localScale = new Vector3(1.15f, 1.15f, 1f);
+        this.transform.localScale = new Vector3(1.15f * startingScale.x, 1.15f * startingScale.y, 1f);
         m_SpriteRenderer.sortingOrder = 0;
 
         if (mostRecentNode != null)
@@ -330,7 +330,7 @@ public class CardController : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if(lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
+        if(lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
         {
             if (gm.currentScene == "InGame")
             {
@@ -338,7 +338,7 @@ public class CardController : MonoBehaviour
                 deck.isOpen = false;
                 this.transform.SetParent(null);
                 m_SpriteRenderer.sortingOrder = 100;
-                this.transform.localScale = new Vector3(1.25f, 1.25f, 1f);
+                this.transform.localScale = new Vector3(1.25f * startingScale.x, 1.25f * startingScale.y, 1f);
                 float distance_to_screen = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
                 Vector3 pos_move = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance_to_screen));
                 transform.position = new Vector3(pos_move.x, pos_move.y, 2f);
@@ -350,10 +350,10 @@ public class CardController : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
+        if (lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
         {
             mousingOver = true;
-            this.transform.localScale = new Vector3(1.25f, 1.25f, 1f);
+            this.transform.localScale = new Vector3(1.25f * startingScale.x, 1.25f * startingScale.y, 1f);
         }
     }
 

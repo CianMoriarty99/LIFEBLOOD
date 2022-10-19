@@ -23,7 +23,6 @@ public class SnapCardToGrid : MonoBehaviour
             card = hit.gameObject.GetComponent<CardController>();
             card.mostRecentNode = this.transform;
             card.mostRecentNodeCoords = coords;
-            Debug.Log(coords);
         }
 
         
