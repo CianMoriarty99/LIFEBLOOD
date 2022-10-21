@@ -11,8 +11,7 @@ public class RotateScript : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         transform.Rotate(xPerSec,yPerSec,zPerSec);
     }
