@@ -10,26 +10,17 @@ public class CardController : MonoBehaviour
     private TextMeshPro health, energyCost;
     private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell;
     public Transform mostRecentNode;
-
     public DeckController deck;
     public GameObject defaultBigCard, worldViewDetails;
-
     public Vector3 startingScale;
-
     public LifebloodManager lbm;
-
     GameManager gm;
-
     ScreenShake sh;
-
     public int powerLevel;
-
+    private int currentHealth;
     public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation;
-
     public Position boardPosition, mostRecentNodeCoords;
-
     public Material defaultMaterial, castMaterial, hoverMaterial;
-
     public float fadeTimer, defaultTimer;
 
     // Start is called before the first frame update
@@ -42,31 +33,25 @@ public class CardController : MonoBehaviour
     void Update()
     {
         EnsureRenderTextOverCardAlways();
-
         FindExternalComponents();
-
         CheckForDropCard();
-
         CardBackDescriptionDisplay();
-
         ResetPowerLevelOnTurnEnd();
-
         IncreaseCardPowerLevel();
-
         AddCardToBattleOrder();
-
         PlayPassiveEffect();
         ChangeMaterial();
     }
 
     void Init()
     {
+
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = card.artwork[0];
         defaultMaterial = m_SpriteRenderer.material;
         castMaterial = card.castMaterial;
         hoverMaterial = card.hoverMaterial;
-        health.text = card.currentHealth.ToString();
+        health.text = currentHealth.ToString();
         energyCost.text = card.energyCost.ToString();
         dragging = false;
         mousingOver = false;
@@ -285,6 +270,17 @@ public class CardController : MonoBehaviour
 
     }
 
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            //TODO Fancy animation
+            Destroy(this.gameObject);
+        }
+    }
+
+    #region Spells
     public IEnumerator CastSpell()
     {
         var spell = card.spells[powerLevel];
@@ -315,10 +311,14 @@ public class CardController : MonoBehaviour
 
         castingSpell = false;
         yield return new WaitForSeconds(0.5f);
-
-
     }
 
+    public Spell GetCurrentSpell()
+    {
+        return card.spells[powerLevel];
+    }
+    #endregion
+    #region Events
     void OnMouseDrag()
     {
         if (lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
@@ -335,8 +335,6 @@ public class CardController : MonoBehaviour
                 transform.position = new Vector3(pos_move.x, pos_move.y, 2f);
             }
         }
-
-
     }
 
     private void OnMouseEnter()
@@ -353,5 +351,5 @@ public class CardController : MonoBehaviour
         mousingOver = false;
         this.transform.localScale = startingScale;
     }
-
+    #endregion
 }

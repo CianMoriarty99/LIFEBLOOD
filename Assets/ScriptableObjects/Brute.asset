@@ -19,44 +19,39 @@ MonoBehaviour:
   - {fileID: 21300000, guid: db6390914fe422745bdc5eac9b63d1f9, type: 3}
   backArtwork: {fileID: 21300000, guid: 83e38bede055ad54f993fae03bb96e19, type: 3}
   cardName: Brute
-  cardType: 0
-  cardRange: 0
   energyCost: 1
-  health: 5
-  baseDamage: 1
+  maxHealth: 1
   spells:
   - desc: Attacks deal -1/-2/-3 to this card
     subPhase: 0
-    effectedTiles:
-    - {x: 0, y: 0}
+    affectedTiles: []
     animation: {fileID: 1341365785022538, guid: 49f4a2628a72b0846afe42d196c02e6c, type: 3}
     animationTime: 1
-    isGlobal: 0
+    damage: 0
   - desc: Bash adjacent enemies for 2 damage
     subPhase: 1
-    effectedTiles:
-    - {x: 0, y: 1}
-    - {x: -1, y: 1}
-    - {x: 1, y: 1}
+    affectedTiles:
+    - x: 0
+      y: 1
+    - x: 1
+      y: 1
+    - x: -1
+      y: 1
     animation: {fileID: 1786363542552736794, guid: 34f402ebb9cdff34bb1329aff341129f, type: 3}
     animationTime: 1
-    isGlobal: 0
+    damage: 1
   - desc: Redirect attacks from adjacent enemies to this card
     subPhase: 0
-    effectedTiles:
-    - {x: 0, y: 1}
-    - {x: 1, y: 1}
-    - {x: -1, y: 1}
+    affectedTiles: []
     animation: {fileID: 1598533638775410, guid: 8d9acef849f7240468daa95c1c7f14c4, type: 3}
     animationTime: 1
-    isGlobal: 0
+    damage: 0
   - desc: Hit all enemies for 3 damage
     subPhase: 1
-    effectedTiles:
-    - {x: 5, y: 5}
+    affectedTiles: []
     animation: {fileID: 1598533638775410, guid: 8d9acef849f7240468daa95c1c7f14c4, type: 3}
     animationTime: 1
-    isGlobal: 0
+    damage: 0
   passiveAnimation: {fileID: 767212142338395449, guid: 5044a73e7f536bb42803b9b4e79dfe26, type: 3}
   castMaterial: {fileID: 2100000, guid: 9989147526a84334c932ae785491cd4d, type: 2}
   hoverMaterial: {fileID: 2100000, guid: 98536f43d23842c40b204f5a66781bef, type: 2}

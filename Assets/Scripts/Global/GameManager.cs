@@ -12,9 +12,8 @@ public class GameManager : MonoBehaviour
     public Card[] possibleCards;
     public List<Card> deck;
     public List<Card> enemyDeck;
+    public EnemyCardController[,] enemyCards = new EnemyCardController[(int)Board.Width, (int)Board.Height * 2];
     public GameObject enemyCardPrefab;
-
-    Transform[] enemyBoardLocations = { };
 
     public bool placedEnemyDeck = false;
 
@@ -89,17 +88,26 @@ public class GameManager : MonoBehaviour
 
     public void PlaceEnemyDeck()
     {
-        var availableLocations = Enumerable.Range(0, 9).ToList();
+        int boardSlots = (int)Board.Width * (int)Board.Height;
+        var availableLocations = Enumerable.Range(0, boardSlots - 1).ToList();
 
-        foreach (Card c in enemyDeck)
+        foreach (Card card in enemyDeck)
         {
             int r = UnityEngine.Random.Range(0, availableLocations.Count);
 
-            GameObject cp = enemyCardPrefab;
-            EnemyCardController cc = enemyCardPrefab.GetComponent<EnemyCardController>();
-            cc.card = c;
+            int index = availableLocations[r];
 
-            Instantiate(cp, enemyBoardLocations[availableLocations[r]]);
+            int xPos = index % (int)Board.Width;
+            int yPos = ((int)Board.Height * 2) - (index / (int)Board.Width) - 1;
+
+            var transforms = GameObject.FindObjectOfType<EnemyBoardPositions>();
+            var enemyCard = Instantiate(enemyCardPrefab, transforms.bp[index]);
+
+            EnemyCardController enemyCardController = enemyCard.GetComponent<EnemyCardController>();
+            enemyCardController.card = card;
+
+            enemyCards[xPos, yPos] = enemyCardController;
+
             availableLocations.RemoveAt(r);
         }
 

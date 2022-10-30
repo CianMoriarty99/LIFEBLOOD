@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ public class LifebloodManager : MonoBehaviour
 
     public List<(CardController, float, SubPhasePlayed)> spellOrder = new List<(CardController, float, SubPhasePlayed)>();
 
-    public Card[,] board = new Card[5, 2];
+    public Card[,] board = new Card[(int)Board.Width, (int)Board.Height * 2];
 
     public float[] boardSpaceInWorldX;
     public float[] boardSpaceInWorldY;
@@ -105,7 +106,7 @@ public class LifebloodManager : MonoBehaviour
         {
             if (spp == SubPhasePlayed.Prep)
             {
-                StartCoroutine(cc.CastSpell());
+                CastSpell(cc);
                 yield return new WaitForSeconds(f + 1f);
             }
         }
@@ -115,7 +116,7 @@ public class LifebloodManager : MonoBehaviour
         {
             if (spp == SubPhasePlayed.Battle)
             {
-                StartCoroutine(cc.CastSpell());
+                CastSpell(cc);
                 yield return new WaitForSeconds(f + 1f);
             }
         }
@@ -123,6 +124,33 @@ public class LifebloodManager : MonoBehaviour
         StartCoroutine(TurnChanged());
     }
 
+    #region Battle phase
+    private void CastSpell(CardController cc)
+    {
+        var spell = cc.GetCurrentSpell();
+        StartCoroutine(cc.CastSpell());
+
+        //TODO make parameter probably
+        bool enemySpell = false;
+
+        var cardPosition = cc.boardPosition;
+        var affectedEnemyTiles = spell.affectedTiles
+            .Select(tile => cardPosition.Add(tile, enemySpell))
+            .Where(tile => tile.IsValid());
+
+        var enemyCards = gm.enemyCards;
+
+        foreach (var enemyCardPosition in affectedEnemyTiles)
+        {
+            var enemyCard = enemyCards[(int)enemyCardPosition.x, (int)enemyCardPosition.y];
+            if (enemyCard != null)
+            {
+                enemyCard.TakeDamage(spell.damage);
+            }
+        }
+
+    }
+    #endregion
 
 
     //The hitbox is the "Change Phase" button

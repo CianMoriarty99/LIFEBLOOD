@@ -2705,6 +2705,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 143172396409914774, guid: b1ab4b6baaf68884da9c186b68e48ae0, type: 3}
     - target: {fileID: 1314207128061199515, guid: 7fc4a4277582d52498ff4a0854ad8814, type: 3}
+      propertyPath: currentScene
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1314207128061199515, guid: 7fc4a4277582d52498ff4a0854ad8814, type: 3}
       propertyPath: enemyCardPrefab
       value: 
       objectReference: {fileID: 143172396409914774, guid: a9871677249f5db4da183b1cc7025832, type: 3}
@@ -2712,6 +2716,14 @@ PrefabInstance:
       propertyPath: noSaveGameDialog
       value: 
       objectReference: {fileID: 1455337269}
+    - target: {fileID: 1314207128061199515, guid: 7fc4a4277582d52498ff4a0854ad8814, type: 3}
+      propertyPath: enemyDeck.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1314207128061199515, guid: 7fc4a4277582d52498ff4a0854ad8814, type: 3}
+      propertyPath: enemyDeck.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ca5f6ebaa5886f43b39aefc258a09dd, type: 2}
     - target: {fileID: 1314207128061199515, guid: 7fc4a4277582d52498ff4a0854ad8814, type: 3}
       propertyPath: possibleCards.Array.size
       value: 1

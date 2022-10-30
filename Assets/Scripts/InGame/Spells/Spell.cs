@@ -8,5 +8,5 @@ public class Spell
     public Position[] affectedTiles;
     public GameObject animation;
     public float animationTime;
-    public bool isGlobal;
+    public int damage;
 }

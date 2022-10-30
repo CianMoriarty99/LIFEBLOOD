@@ -10,3 +10,9 @@ public enum Scene
     WorldView,
     MainMenu
 }
+
+public enum Board
+{
+    Width = 5,
+    Height = 2
+}

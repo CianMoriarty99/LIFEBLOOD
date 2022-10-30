@@ -7,7 +7,6 @@ public class Card : ScriptableObject
     public Sprite backArtwork;
     public string cardName;
     public int energyCost;
-    public int currentHealth;
     public int maxHealth;
     public Spell[] spells;
     public GameObject passiveAnimation;
