@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SnapCardToGrid : MonoBehaviour
@@ -22,10 +20,10 @@ public class SnapCardToGrid : MonoBehaviour
         {
             card = hit.gameObject.GetComponent<CardController>();
             card.mostRecentNode = this.transform;
-            card.mostRecentNodeCoords = coords;
+            card.mostRecentNodeCoords = new Position(coords);
         }
 
-        
+
     }
 
     void OnDrawGizmos()

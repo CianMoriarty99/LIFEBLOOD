@@ -26,7 +26,7 @@ public class CardController : MonoBehaviour
 
     public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation;
 
-    public Vector2 boardPosition, mostRecentNodeCoords;
+    public Position boardPosition, mostRecentNodeCoords;
 
     public Material defaultMaterial, castMaterial, hoverMaterial;
 
@@ -253,7 +253,7 @@ public class CardController : MonoBehaviour
         {
             this.transform.position = new Vector3(mostRecentNode.position.x, mostRecentNode.position.y, mostRecentNode.position.z - 0.1f);
             boardPosition = mostRecentNodeCoords;
-            lbm.board[(int)boardPosition.x, (int)boardPosition.y] = card;
+            lbm.board[boardPosition.x, boardPosition.y] = card;
             this.m_SpriteRenderer.sortingOrder = -7;
             var tmp = GetComponent<EnableHighlight>().highlight.GetComponent<SpriteRenderer>().sortingOrder = -8;
 
@@ -290,8 +290,8 @@ public class CardController : MonoBehaviour
         var spell = card.spells[powerLevel];
         castingSpell = true;
 
-        float a = lbm.boardSpaceInWorldX[(int)boardPosition.x];
-        float b = lbm.boardSpaceInWorldY[(int)boardPosition.y];
+        float a = lbm.boardSpaceInWorldX[boardPosition.x];
+        float b = lbm.boardSpaceInWorldY[boardPosition.y];
 
         Vector3 locationOfSpellInstance = new Vector3(a, b, -1.5f);
 

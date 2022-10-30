@@ -5,7 +5,7 @@ public class Spell
 {
     public string desc;
     public SubPhasePlayed subPhase;
-    public Vector2[] effectedTiles;
+    public Position[] affectedTiles;
     public GameObject animation;
     public float animationTime;
     public bool isGlobal;
