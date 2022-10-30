@@ -1,18 +1,17 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using System.Collections;
 
 public class CardController : MonoBehaviour
 {
     public Card card;
-    SpriteRenderer m_SpriteRenderer;
-    public TextMeshPro health, energyCost, damage;
-    public bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castSpellNow, castingSpell;
+    private SpriteRenderer m_SpriteRenderer;
+    [SerializeField]
+    private TextMeshPro health, energyCost;
+    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell;
     public Transform mostRecentNode;
 
     public DeckController deck;
-
     public GameObject defaultBigCard, worldViewDetails;
 
     public Vector3 startingScale;
@@ -56,12 +55,6 @@ public class CardController : MonoBehaviour
 
         AddCardToBattleOrder();
 
-        if(castSpellNow)
-        {
-            StartCoroutine(CastSpell(card.spells[powerLevel]));
-            castSpellNow = false;
-        }
-
         PlayPassiveEffect();
         ChangeMaterial();
     }
@@ -73,16 +66,14 @@ public class CardController : MonoBehaviour
         defaultMaterial = m_SpriteRenderer.material;
         castMaterial = card.castMaterial;
         hoverMaterial = card.hoverMaterial;
-        health.text = card.health.ToString();
+        health.text = card.currentHealth.ToString();
         energyCost.text = card.energyCost.ToString();
-        damage.text = card.baseDamage.ToString();
         dragging = false;
         mousingOver = false;
         firstTimeBeingPlayed = true;
         startingScale = this.transform.localScale;
         hasntAddedSpellsYet = true;
         passiveAnimationPrefab = card.passiveAnimation;
-        castSpellNow = false;
         castingSpell = false;
         fadeTimer = 0.5f;
         defaultTimer = 0.5f;
@@ -90,14 +81,14 @@ public class CardController : MonoBehaviour
 
     void AddCardToBattleOrder()
     {
-        if ( lbm && lbm.phase == LifebloodManager.PHASE.BATTLEPHASE && hasntAddedSpellsYet && powerLevel != 0 )
+        if (lbm && lbm.phase == LifebloodManager.PHASE.BATTLEPHASE && hasntAddedSpellsYet && powerLevel != 0)
         {
             Spell c = card.spells[powerLevel];
             lbm.spellOrder.Add((this, c.animationTime, c.subPhase));
             hasntAddedSpellsYet = false;
         }
 
-        if(!hasntAddedSpellsYet && lbm.phase == LifebloodManager.PHASE.PLACEPHASE )
+        if (!hasntAddedSpellsYet && lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
         {
             hasntAddedSpellsYet = true;
         }
@@ -126,8 +117,8 @@ public class CardController : MonoBehaviour
     void PlayPassiveEffect()
     {
         if (mousingOver && !firstTimeBeingPlayed && !dragging)
-        { 
-            if(fadeTimer + 0.1f <= 0)
+        {
+            if (fadeTimer + 0.1f <= 0)
             {
                 Vector3 locationOfSpellInstance = new Vector3(transform.position.x, transform.position.y, -1.5f);
 
@@ -135,7 +126,8 @@ public class CardController : MonoBehaviour
                 {
                     passiveAnimation.SetActive(true);
                     passiveAnimation.transform.position = locationOfSpellInstance;
-                } else
+                }
+                else
                 {
                     passiveAnimation = Instantiate(passiveAnimationPrefab, locationOfSpellInstance, Quaternion.identity);
                 }
@@ -152,7 +144,7 @@ public class CardController : MonoBehaviour
 
     void ChangeMaterial()
     {
-        if(castingSpell)
+        if (castingSpell)
         {
             m_SpriteRenderer.material = castMaterial;
             fadeTimer = defaultTimer;
@@ -160,18 +152,18 @@ public class CardController : MonoBehaviour
         else if (mousingOver && !firstTimeBeingPlayed && !dragging)
         {
             fadeTimer -= Time.deltaTime;
-            if(fadeTimer <= 0)
+            if (fadeTimer <= 0)
             {
                 m_SpriteRenderer.material = hoverMaterial;
             }
-            
-        } 
+
+        }
         else
         {
             fadeTimer = defaultTimer;
             m_SpriteRenderer.material = defaultMaterial;
         }
-            
+
     }
 
     void ResetPowerLevelOnTurnEnd()
@@ -179,7 +171,7 @@ public class CardController : MonoBehaviour
         if (lbm && lbm.battleEnded == true)
         {
             powerLevel = 0;
-            m_SpriteRenderer.sprite = card.artwork[powerLevel]; 
+            m_SpriteRenderer.sprite = card.artwork[powerLevel];
         }
     }
 
@@ -190,12 +182,11 @@ public class CardController : MonoBehaviour
             defaultBigCard.SetActive(true);
             defaultBigCard.GetComponent<FullScreenCardController>().card = card;
 
-            if (gm.currentScene == "WorldView")
+            if (gm.currentScene == Scene.WorldView)
             {
                 m_SpriteRenderer.enabled = false;
                 health.sortingOrder = this.m_SpriteRenderer.sortingOrder - 1;
                 energyCost.sortingOrder = this.m_SpriteRenderer.sortingOrder - 1;
-                damage.sortingOrder = this.m_SpriteRenderer.sortingOrder - 1;
             }
         }
         else
@@ -227,7 +218,7 @@ public class CardController : MonoBehaviour
 
         if (!deck)
         {
-            if (gm && gm.currentScene == "InGame")
+            if (gm && gm.currentScene == Scene.InGame)
             {
                 deck = DeckController.instance;
             }
@@ -235,13 +226,13 @@ public class CardController : MonoBehaviour
 
         if (!lbm)
         {
-            if (gm && gm.currentScene == "InGame")
+            if (gm && gm.currentScene == Scene.InGame)
             {
                 lbm = LifebloodManager.instance;
             }
         }
 
-        if(!sh)
+        if (!sh)
         {
             sh = ScreenShake.instance;
         }
@@ -251,7 +242,6 @@ public class CardController : MonoBehaviour
     {
         health.sortingOrder = 1 + this.m_SpriteRenderer.sortingOrder;
         energyCost.sortingOrder = 1 + this.m_SpriteRenderer.sortingOrder;
-        damage.sortingOrder = 1 + this.m_SpriteRenderer.sortingOrder;
     }
 
     void DropCard()
@@ -295,8 +285,9 @@ public class CardController : MonoBehaviour
 
     }
 
-    IEnumerator CastSpell(Spell spell)
+    public IEnumerator CastSpell()
     {
+        var spell = card.spells[powerLevel];
         castingSpell = true;
 
         float a = lbm.boardSpaceInWorldX[(int)boardPosition.x];
@@ -330,9 +321,9 @@ public class CardController : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if(lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
+        if (lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
         {
-            if (gm.currentScene == "InGame")
+            if (gm.currentScene == Scene.InGame)
             {
                 dragging = true;
                 deck.isOpen = false;

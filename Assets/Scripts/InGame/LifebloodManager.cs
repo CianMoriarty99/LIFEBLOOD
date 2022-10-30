@@ -32,7 +32,7 @@ public class LifebloodManager : MonoBehaviour
 
     public List<(CardController, float, SubPhasePlayed)> spellOrder = new List<(CardController, float, SubPhasePlayed)>();
 
-    public Card[,] board  = new Card[5,2];
+    public Card[,] board = new Card[5, 2];
 
     public float[] boardSpaceInWorldX;
     public float[] boardSpaceInWorldY;
@@ -56,14 +56,14 @@ public class LifebloodManager : MonoBehaviour
         if (playCostThisTurn > 0)
         {
             lifebloodText.color = Color.red;
-        } 
+        }
         else
         {
             lifebloodText.color = Color.white;
         }
 
 
-        if(mousingOver && Input.GetMouseButtonDown(0) && phase == PHASE.PLACEPHASE)
+        if (mousingOver && Input.GetMouseButtonDown(0) && phase == PHASE.PLACEPHASE)
         {
             StartCoroutine(TurnChanged());
         }
@@ -80,7 +80,8 @@ public class LifebloodManager : MonoBehaviour
             yield return new WaitForSeconds(1.5f);
             battlePhaseGraphic.SetActive(false);
             StartCoroutine(BattleSequence());
-        } else 
+        }
+        else
         {
             battlePhaseGraphic.SetActive(false);
             placePhaseGraphic.SetActive(true);
@@ -93,18 +94,18 @@ public class LifebloodManager : MonoBehaviour
             playCostThisTurn = 0;
             yield return new WaitForSeconds(0.1f);
             battleEnded = false;
-            
+
         }
     }
 
     IEnumerator BattleSequence()
     {
-        
+
         foreach ((CardController cc, float f, SubPhasePlayed spp) in spellOrder)
         {
-            if(spp == SubPhasePlayed.Prep)
-            { 
-                cc.castSpellNow = true;
+            if (spp == SubPhasePlayed.Prep)
+            {
+                StartCoroutine(cc.CastSpell());
                 yield return new WaitForSeconds(f + 1f);
             }
         }
@@ -114,7 +115,7 @@ public class LifebloodManager : MonoBehaviour
         {
             if (spp == SubPhasePlayed.Battle)
             {
-                cc.castSpellNow = true;
+                StartCoroutine(cc.CastSpell());
                 yield return new WaitForSeconds(f + 1f);
             }
         }

@@ -1,12 +1,11 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class EnemyCardController : MonoBehaviour
 {
     public Card card;
     SpriteRenderer m_SpriteRenderer;
-    public TextMeshPro health, energyCost, damage;
+    public TextMeshPro health, energyCost;
     public bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving;
     public Transform mostRecentNode;
 
@@ -24,12 +23,11 @@ public class EnemyCardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = card.artwork[0];
-        health.text = card.health.ToString();
+        health.text = card.currentHealth.ToString();
         energyCost.text = card.energyCost.ToString();
-        damage.text = card.baseDamage.ToString();
         dragging = false;
         mousingOver = false;
         firstTimeBeingPlayed = true;
@@ -45,7 +43,6 @@ public class EnemyCardController : MonoBehaviour
     {
         health.sortingOrder = 1 + m_SpriteRenderer.sortingOrder;
         energyCost.sortingOrder = 1 + m_SpriteRenderer.sortingOrder;
-        damage.sortingOrder = 1 + m_SpriteRenderer.sortingOrder;
 
 
         if (mousingOver && !dragging)

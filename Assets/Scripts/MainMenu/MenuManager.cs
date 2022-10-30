@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,14 +14,14 @@ public class MenuManager : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void NewGameDialogYes()
     {
         gm.InitialiseDeck(3);
-        gm.ChangeScene("WorldView");
-        
+        gm.ChangeScene(Scene.WorldView);
+
     }
 
     public void LoadGameDialogYes()

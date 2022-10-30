@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -14,7 +12,7 @@ public class FullScreenCardController : MonoBehaviour
     void Awake()
     {
         spriteR = GetComponent<SpriteRenderer>();
-        
+
     }
     private void Start()
     {
@@ -25,12 +23,12 @@ public class FullScreenCardController : MonoBehaviour
     {
         if (card)
         {
-            if (gm.currentScene == "InGame")
+            if (gm.currentScene == Scene.InGame)
             {
                 this.transform.position = startingPositionInGame.position;
-                
+
             }
-            if (gm.currentScene == "WorldView")
+            if (gm.currentScene == Scene.WorldView)
             {
                 this.transform.position = this.transform.parent.position;
             }
@@ -42,7 +40,7 @@ public class FullScreenCardController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (gm.currentScene == "WorldView")
+        if (gm.currentScene == Scene.WorldView)
             this.transform.localScale = new Vector3(1.7f, 1.7f, 1.7f);
         else
             this.transform.localScale = new Vector3(2f, 2f, 2f);

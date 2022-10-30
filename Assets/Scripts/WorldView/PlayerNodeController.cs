@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerNodeController : MonoBehaviour
@@ -24,7 +22,8 @@ public class PlayerNodeController : MonoBehaviour
 
             RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
 
-            if (hit.collider != null) {
+            if (hit.collider != null)
+            {
                 distanceToPlayer = Vector3.Distance(hit.transform.position, transform.position);
                 if (distanceToPlayer < searchRange)
                 {
@@ -36,16 +35,16 @@ public class PlayerNodeController : MonoBehaviour
             }
         }
 
-        if(moving)
+        if (moving)
         {
             transform.position = Vector2.MoveTowards(transform.position, moveToward.position, 0.01f);
         }
 
-        if(moveToward && transform.position == moveToward.position)
+        if (moveToward && transform.position == moveToward.position)
         {
             moving = false;
             moveToward = null;
-            gm.ChangeScene("InGame");
+            gm.ChangeScene(Scene.InGame);
         }
     }
 }
