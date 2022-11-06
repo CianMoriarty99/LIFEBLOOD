@@ -28,9 +28,6 @@ public class EnemyCardController : MonoBehaviour
         firstTimeBeingPlayed = true;
         startingScale = this.transform.localScale;
         isDissolving = false;
-
-
-
     }
 
     // Update is called once per frame
@@ -38,7 +35,6 @@ public class EnemyCardController : MonoBehaviour
     {
         health.sortingOrder = 1 + m_SpriteRenderer.sortingOrder;
         energyCost.sortingOrder = 1 + m_SpriteRenderer.sortingOrder;
-
 
         if (mousingOver && !dragging)
         {
@@ -56,6 +52,9 @@ public class EnemyCardController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+
+        health.text = currentHealth.ToString();
+
         if (currentHealth <= 0)
         {
             //TODO Fancy animation

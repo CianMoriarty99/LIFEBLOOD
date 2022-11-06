@@ -45,7 +45,7 @@ public class CardController : MonoBehaviour
 
     void Init()
     {
-
+        currentHealth = card.maxHealth;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = card.artwork[0];
         defaultMaterial = m_SpriteRenderer.material;
@@ -273,6 +273,7 @@ public class CardController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        health.text = currentHealth.ToString();
         if (currentHealth <= 0)
         {
             //TODO Fancy animation

@@ -140,14 +140,26 @@ public class LifebloodManager : MonoBehaviour
 
         var enemyCards = gm.enemyCards;
 
-        foreach (var enemyCardPosition in affectedEnemyTiles)
+        //Global spells
+        if(spell.affectedTiles.Length == 0)
         {
-            var enemyCard = enemyCards[(int)enemyCardPosition.x, (int)enemyCardPosition.y];
-            if (enemyCard != null)
+            foreach (var enemy in enemyCards)
             {
-                enemyCard.TakeDamage(spell.damage);
+                if(enemy)
+                    enemy.TakeDamage(spell.damage);
             }
-        }
+        } else
+        {
+            //Local spells
+            foreach (var enemyCardPosition in affectedEnemyTiles)
+            {
+                var enemyCard = enemyCards[(int)enemyCardPosition.x, (int)enemyCardPosition.y];
+                if (enemyCard != null)
+                {
+                    enemyCard.TakeDamage(spell.damage);
+                }
+            }
+            }
 
     }
     #endregion
