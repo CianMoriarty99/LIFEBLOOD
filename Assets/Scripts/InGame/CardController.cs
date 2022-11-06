@@ -20,7 +20,7 @@ public class CardController : MonoBehaviour
     private int currentHealth;
     public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation;
     public Position boardPosition, mostRecentNodeCoords;
-    public Material defaultMaterial, castMaterial, hoverMaterial;
+    public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
     public float fadeTimer, defaultTimer;
 
     // Start is called before the first frame update
@@ -258,17 +258,7 @@ public class CardController : MonoBehaviour
         dragging = false;
     }
 
-    IEnumerator PlaySpawnAnimation()
-    {
 
-        var obj = Instantiate(spawnAnimationPrefab, transform.position, spawnAnimationPrefab.transform.rotation);
-        obj.GetComponent<ParticleSystem>().Play();
-        yield return new WaitForSeconds(0.5f);
-        obj.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
-        yield return new WaitForSeconds(0.5f);
-        Destroy(obj);
-
-    }
 
     public void TakeDamage(int damage)
     {
@@ -276,10 +266,40 @@ public class CardController : MonoBehaviour
         health.text = currentHealth.ToString();
         if (currentHealth <= 0)
         {
-            //TODO Fancy animation
-            Destroy(this.gameObject);
+            StartCoroutine(DestroyCardAnimation());
+        } else
+        {
+            StartCoroutine(TakeDamageAnimation());
         }
     }
+
+    #region Animations
+    IEnumerator PlaySpawnAnimation()
+    {
+        var obj = Instantiate(spawnAnimationPrefab, transform.position, spawnAnimationPrefab.transform.rotation);
+        obj.GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(0.5f);
+        obj.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(obj);
+    }
+
+    IEnumerator DestroyCardAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        m_SpriteRenderer.material = destroyMaterial;
+        m_SpriteRenderer.material.SetFloat("_DissolveAmount", 1f);
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);
+
+
+    }
+
+    IEnumerator TakeDamageAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+    }
+    #endregion
 
     #region Spells
     public IEnumerator CastSpell()

@@ -662,17 +662,19 @@ MonoBehaviour:
   card: {fileID: 11400000, guid: 2ca5f6ebaa5886f43b39aefc258a09dd, type: 2}
   health: {fileID: 143172396287303622}
   energyCost: {fileID: 143172396324106062}
-  damage: {fileID: 143172395850754309}
   dragging: 0
   mousingOver: 0
   firstTimeBeingPlayed: 0
-  isDissolving: 0
   mostRecentNode: {fileID: 0}
   deck: {fileID: 0}
   defaultBigCard: {fileID: 7078201421620118596}
   worldViewDetails: {fileID: 0}
   startingScale: {x: 0, y: 0, z: 0}
   lbm: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  castMaterial: {fileID: 0}
+  hoverMaterial: {fileID: 0}
+  destroyMaterial: {fileID: 2100000, guid: 179555ab8bd66734b8c1ac67e84c7cbc, type: 2}
 --- !u!1001 &143172396475469708
 PrefabInstance:
   m_ObjectHideFlags: 0

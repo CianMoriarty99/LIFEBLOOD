@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -13,11 +14,17 @@ public class EnemyCardController : MonoBehaviour
     public GameObject defaultBigCard, worldViewDetails;
     public Vector3 startingScale;
     public LifebloodManager lbm;
+    public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
+    public float dissolveTime;
     GameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
+        defaultMaterial = m_SpriteRenderer.material;
+        castMaterial = card.castMaterial;
+        hoverMaterial = card.hoverMaterial;
         currentHealth = card.maxHealth;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = card.artwork[0];
@@ -27,7 +34,6 @@ public class EnemyCardController : MonoBehaviour
         mousingOver = false;
         firstTimeBeingPlayed = true;
         startingScale = this.transform.localScale;
-        isDissolving = false;
     }
 
     // Update is called once per frame
@@ -47,21 +53,47 @@ public class EnemyCardController : MonoBehaviour
             m_SpriteRenderer.enabled = true;
             defaultBigCard.SetActive(false);
         }
+
+        if(isDissolving)
+        {
+            m_SpriteRenderer.material.SetFloat("_DissolveAmount", dissolveTime);
+            dissolveTime += Time.deltaTime;
+        }    
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-
-        health.text = currentHealth.ToString();
-
         if (currentHealth <= 0)
         {
-            //TODO Fancy animation
-            Destroy(this.gameObject);
+            StartCoroutine(DestroyCardAnimation());
+        }
+        else
+        {
+            StartCoroutine(TakeDamageAnimation());
         }
     }
 
+    #region Animations
+
+    IEnumerator DestroyCardAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        health.text = "";
+        m_SpriteRenderer.material = destroyMaterial;
+        isDissolving = true;
+        dissolveTime = 0;
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
+    }
+
+    IEnumerator TakeDamageAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        health.text = currentHealth.ToString(); //Add this to the animation part so it gets delayed correctly.
+        
+    }
+    #endregion
     #region Events
     private void OnMouseEnter()
     {
