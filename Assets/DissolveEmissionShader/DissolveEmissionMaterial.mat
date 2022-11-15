@@ -76,7 +76,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DissolveAmount: 0
     - _DissolveEmission: 1
-    - _DissolveWidth: 0.0362
+    - _DissolveWidth: 0.09
     - _DstBlend: 0
     - _Edges: 0.1
     - _GlossMapScale: 1
@@ -85,7 +85,7 @@ Material:
     - _Level: 0.1
     - _Metallic: 0.155
     - _Mode: 0
-    - _NormalStrenght: 1.12
+    - _NormalStrenght: 1.251
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0

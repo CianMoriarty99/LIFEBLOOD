@@ -33,8 +33,10 @@ public class FullScreenCardController : MonoBehaviour
                 this.transform.position = this.transform.parent.position;
             }
             spriteR.sprite = card.artwork[0];
-            cardName.text = card.cardName;
-
+            passiveDesc.text = card.spells[0].desc;
+            e1Desc.text = card.spells[1].desc;
+            e2Desc.text = card.spells[2].desc;
+            e3Desc.text = card.spells[3].desc;
         }
     }
 
