@@ -665,6 +665,7 @@ MonoBehaviour:
   dragging: 0
   mousingOver: 0
   firstTimeBeingPlayed: 0
+  isDissolving: 0
   mostRecentNode: {fileID: 0}
   deck: {fileID: 0}
   defaultBigCard: {fileID: 7078201421620118596}
@@ -675,6 +676,8 @@ MonoBehaviour:
   castMaterial: {fileID: 0}
   hoverMaterial: {fileID: 0}
   destroyMaterial: {fileID: 2100000, guid: 179555ab8bd66734b8c1ac67e84c7cbc, type: 2}
+  dissolveTime: 0
+  destroyCardAnimation: {fileID: 8800037171583899413, guid: 6b2dfbf733d8a604e8bfe70b0364a3e7, type: 3}
 --- !u!1001 &143172396475469708
 PrefabInstance:
   m_ObjectHideFlags: 0

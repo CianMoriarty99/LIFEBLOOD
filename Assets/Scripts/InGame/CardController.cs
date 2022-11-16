@@ -18,10 +18,10 @@ public class CardController : MonoBehaviour
     ScreenShake sh;
     public int powerLevel;
     private int currentHealth;
-    public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation;
+    public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation, destroyCardAnimation;
     public Position boardPosition, mostRecentNodeCoords;
     public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
-    public float fadeTimer, defaultTimer;
+    public float fadeTimer, defaultTimer, dissolveTime;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +41,12 @@ public class CardController : MonoBehaviour
         AddCardToBattleOrder();
         PlayPassiveEffect();
         ChangeMaterial();
+
+        if (isDissolving)
+        {
+            m_SpriteRenderer.material.SetFloat("_DissolveAmount", dissolveTime);
+            dissolveTime += Time.deltaTime;
+        }
     }
 
     void Init()
@@ -287,12 +293,14 @@ public class CardController : MonoBehaviour
     IEnumerator DestroyCardAnimation()
     {
         yield return new WaitForSeconds(0.5f);
+        health.text = "";
+        var anim = Instantiate(destroyCardAnimation);
         m_SpriteRenderer.material = destroyMaterial;
-        m_SpriteRenderer.material.SetFloat("_DissolveAmount", 1f);
-        yield return new WaitForSeconds(0.5f);
+        isDissolving = true;
+        dissolveTime = 0;
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
-
-
+        Destroy(anim);
     }
 
     IEnumerator TakeDamageAnimation()

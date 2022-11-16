@@ -28,7 +28,7 @@ public class TeamPreviewController : MonoBehaviour
 
         for (int i=0; i<numberOfCards; i++)
         {
-            float gap = 3f;
+            float gap = 2.2f;
             Vector3 startingPosition = new Vector3(transform.position.x - (gap * (numberOfCards - 1) / 2) + gap * i, transform.position.y, zPosition) ;
             GameObject c = Instantiate(cardPrefab, startingPosition, Quaternion.identity);
             c.GetComponent<SpriteRenderer>().sortingOrder = 0;

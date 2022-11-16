@@ -634,6 +634,7 @@ MonoBehaviour:
   spellCastAnimation: {fileID: 0}
   passiveAnimationPrefab: {fileID: 0}
   passiveAnimation: {fileID: 0}
+  destroyCardAnimation: {fileID: 8800037171583899413, guid: 6b2dfbf733d8a604e8bfe70b0364a3e7, type: 3}
   boardPosition:
     x: 0
     y: 0
@@ -798,6 +799,18 @@ PrefabInstance:
     - target: {fileID: 5725087398449092348, guid: 72c3a39fb34366145a0a28eb2d2da962, type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725087398449092348, guid: 72c3a39fb34366145a0a28eb2d2da962, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725087398449092348, guid: 72c3a39fb34366145a0a28eb2d2da962, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5725087398449092348, guid: 72c3a39fb34366145a0a28eb2d2da962, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 5725087398449092348, guid: 72c3a39fb34366145a0a28eb2d2da962, type: 3}
       propertyPath: m_LocalPosition.x

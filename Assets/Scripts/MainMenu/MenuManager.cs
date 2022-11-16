@@ -19,7 +19,7 @@ public class MenuManager : MonoBehaviour
 
     public void NewGameDialogYes()
     {
-        gm.InitialiseDeck(3);
+        gm.InitialiseDeck(5);
         gm.ChangeScene(Scene.WorldView);
 
     }

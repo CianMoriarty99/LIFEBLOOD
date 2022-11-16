@@ -16,6 +16,7 @@ public class EnemyCardController : MonoBehaviour
     public LifebloodManager lbm;
     public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
     public float dissolveTime;
+    public GameObject destroyCardAnimation;
     GameManager gm;
 
     // Start is called before the first frame update
@@ -78,18 +79,20 @@ public class EnemyCardController : MonoBehaviour
 
     IEnumerator DestroyCardAnimation()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         health.text = "";
+        var anim = Instantiate(destroyCardAnimation, this.transform);
         m_SpriteRenderer.material = destroyMaterial;
         isDissolving = true;
         dissolveTime = 0;
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
+        Destroy(anim);
     }
 
     IEnumerator TakeDamageAnimation()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         health.text = currentHealth.ToString(); //Add this to the animation part so it gets delayed correctly.
         
     }
