@@ -244,7 +244,7 @@ public class CardController : MonoBehaviour
         {
             this.transform.position = new Vector3(mostRecentNode.position.x, mostRecentNode.position.y, mostRecentNode.position.z - 0.1f);
             boardPosition = mostRecentNodeCoords;
-            lbm.board[boardPosition.x, boardPosition.y] = card;
+            lbm.playerBoard[boardPosition.x, boardPosition.y] = card;
             this.m_SpriteRenderer.sortingOrder = -7;
             var tmp = GetComponent<EnableHighlight>().highlight.GetComponent<SpriteRenderer>().sortingOrder = -8;
 

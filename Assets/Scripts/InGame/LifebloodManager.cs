@@ -29,11 +29,12 @@ public class LifebloodManager : MonoBehaviour
 
     public PHASE phase;
 
-    public bool mousingOver, battleEnded;
+    public bool mousingOver, battleEnded, hasBattled;
 
     public List<(CardController, float, SubPhasePlayed)> spellOrder = new List<(CardController, float, SubPhasePlayed)>();
 
-    public Card[,] board = new Card[(int)Board.Width, (int)Board.Height * 2];
+    public Card[,] playerBoard = new Card[(int)Board.Width, (int)Board.Height];
+    public Card[,] enemyBoard = new Card[(int)Board.Width, (int)Board.Height];
 
     public float[] boardSpaceInWorldX;
     public float[] boardSpaceInWorldY;
@@ -67,6 +68,48 @@ public class LifebloodManager : MonoBehaviour
         if (mousingOver && Input.GetMouseButtonDown(0) && phase == PHASE.PLACEPHASE)
         {
             StartCoroutine(TurnChanged());
+            hasBattled = true;
+        }
+
+        CheckForBattleEnd();
+
+
+    }
+
+    bool CheckForAliveCard(Card[,] board)
+    {
+        for (int i = 0; i < board.GetLength(0); i++)
+        {
+            for (int j = 0; j < board.GetLength(1); j++)
+            {
+                if (board[i, j] != null)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    void CheckForBattleEnd()
+    {
+        if (hasBattled)
+        {
+            bool playerLost = CheckForAliveCard(playerBoard);
+            bool enemyLost = CheckForAliveCard(enemyBoard);
+
+            if (playerLost)
+            {
+                StartCoroutine(LoseGameSequence());
+            } 
+            else
+            if (enemyLost)
+            {
+                StartCoroutine(WinBattleSequence());
+            }
+
+            
         }
     }
 
@@ -163,6 +206,18 @@ public class LifebloodManager : MonoBehaviour
 
     }
     #endregion
+
+    IEnumerator LoseGameSequence()
+    {
+        hasBattled = false;
+        yield return new WaitForSeconds(2f);
+    }
+
+    IEnumerator WinBattleSequence()
+    {
+        hasBattled = false;
+        yield return new WaitForSeconds(2f);
+    }
 
 
     //The hitbox is the "Change Phase" button

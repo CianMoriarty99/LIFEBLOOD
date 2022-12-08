@@ -634,7 +634,7 @@ MonoBehaviour:
   spellCastAnimation: {fileID: 0}
   passiveAnimationPrefab: {fileID: 0}
   passiveAnimation: {fileID: 0}
-  destroyCardAnimation: {fileID: 8800037171583899413, guid: 6b2dfbf733d8a604e8bfe70b0364a3e7, type: 3}
+  destroyCardAnimation: {fileID: 3240052238898082564, guid: 6b2dfbf733d8a604e8bfe70b0364a3e7, type: 3}
   boardPosition:
     x: 0
     y: 0
@@ -647,6 +647,7 @@ MonoBehaviour:
   destroyMaterial: {fileID: 2100000, guid: 179555ab8bd66734b8c1ac67e84c7cbc, type: 2}
   fadeTimer: 0
   defaultTimer: 0
+  dissolveTime: 0
 --- !u!61 &143172396409914770
 BoxCollider2D:
   m_ObjectHideFlags: 0
