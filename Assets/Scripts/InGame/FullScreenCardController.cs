@@ -32,6 +32,7 @@ public class FullScreenCardController : MonoBehaviour
             {
                 this.transform.position = this.transform.parent.position;
             }
+            cardName.text = card.cardName.ToString();
             spriteR.sprite = card.artwork[0];
             passiveDesc.text = card.spells[0].desc;
             e1Desc.text = card.spells[1].desc;

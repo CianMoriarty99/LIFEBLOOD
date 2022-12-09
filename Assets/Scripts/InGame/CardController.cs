@@ -8,7 +8,7 @@ public class CardController : MonoBehaviour
     private SpriteRenderer m_SpriteRenderer;
     [SerializeField]
     private TextMeshPro health, energyCost;
-    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell;
+    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell, isEnemyCard;
     public Transform mostRecentNode;
     public DeckController deck;
     public GameObject defaultBigCard, worldViewDetails;
@@ -16,12 +16,15 @@ public class CardController : MonoBehaviour
     public LifebloodManager lbm;
     GameManager gm;
     ScreenShake sh;
-    public int powerLevel;
+    public int powerLevel, damageReduction;
     private int currentHealth;
     public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation, destroyCardAnimation;
     public Position boardPosition, mostRecentNodeCoords;
     public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
     public float fadeTimer, defaultTimer, dissolveTime;
+
+    //Auras
+    public bool reductionAuraApplied;
 
     // Start is called before the first frame update
     void Start()
@@ -41,12 +44,41 @@ public class CardController : MonoBehaviour
         AddCardToBattleOrder();
         PlayPassiveEffect();
         ChangeMaterial();
+        Dissolve();
+        UpdateDamageReduction();
 
+
+
+    }
+
+    void UpdateDamageReduction()
+    {
+        int tmp = 0;
+
+        //BRUISER
+        if(card.cardName == CardName.BRUISER)
+        {
+            tmp += (powerLevel - 1);
+        }
+
+        //REDUCTION AURA
+        if(reductionAuraApplied)
+        {
+            tmp += 1;
+        }
+
+        damageReduction = tmp;
+        
+    }
+
+    void Dissolve()
+    {
         if (isDissolving)
         {
             m_SpriteRenderer.material.SetFloat("_DissolveAmount", dissolveTime);
             dissolveTime += Time.deltaTime;
         }
+
     }
 
     void Init()
@@ -68,6 +100,7 @@ public class CardController : MonoBehaviour
         castingSpell = false;
         fadeTimer = 0.5f;
         defaultTimer = 0.5f;
+        isEnemyCard = true;
     }
 
     void AddCardToBattleOrder()
@@ -261,6 +294,7 @@ public class CardController : MonoBehaviour
             this.transform.position = new Vector3(transform.position.x, transform.position.y, -1.65f);
         }
 
+        isEnemyCard = false;
         dragging = false;
     }
 
@@ -268,8 +302,13 @@ public class CardController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        
+        int dmg = Mathf.Clamp((damage - damageReduction), 0, damage);
+
+        currentHealth -= dmg;
+
         health.text = currentHealth.ToString();
+
         if (currentHealth <= 0)
         {
             StartCoroutine(DestroyCardAnimation());
@@ -292,9 +331,9 @@ public class CardController : MonoBehaviour
 
     IEnumerator DestroyCardAnimation()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         health.text = "";
-        var anim = Instantiate(destroyCardAnimation);
+        var anim = Instantiate(destroyCardAnimation, this.transform);
         m_SpriteRenderer.material = destroyMaterial;
         isDissolving = true;
         dissolveTime = 0;
@@ -303,9 +342,12 @@ public class CardController : MonoBehaviour
         Destroy(anim);
     }
 
+
     IEnumerator TakeDamageAnimation()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
+        health.text = currentHealth.ToString(); //Add this to the animation part so it gets delayed correctly.
+
     }
     #endregion
 

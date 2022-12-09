@@ -1472,7 +1472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5725087398449092348
 Transform:
   m_ObjectHideFlags: 0
@@ -1562,7 +1562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingPositionInGame: {fileID: 2285187596520426036, guid: 3bec2c1d866cb424fbdf54659c5782c9, type: 3}
-  card: {fileID: 0}
+  card: {fileID: 11400000, guid: 2ca5f6ebaa5886f43b39aefc258a09dd, type: 2}
   cardName: {fileID: 5725087397386965219}
   health: {fileID: 0}
   energyCost: {fileID: 0}

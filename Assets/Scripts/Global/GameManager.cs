@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public Card[] possibleCards;
     public List<Card> deck;
     public List<Card> enemyDeck;
-    public EnemyCardController[,] enemyCards = new EnemyCardController[(int)Board.Width, (int)Board.Height * 2];
+    public CardController[,] enemyCards = new CardController[(int)Board.Width, (int)Board.Height * 2];
     public GameObject enemyCardPrefab;
 
     public bool placedEnemyDeck = false;
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
             var transforms = GameObject.FindObjectOfType<EnemyBoardPositions>();
             var enemyCard = Instantiate(enemyCardPrefab, transforms.bp[index]);
 
-            EnemyCardController enemyCardController = enemyCard.GetComponent<EnemyCardController>();
+            CardController enemyCardController = enemyCard.GetComponent<CardController>();
             enemyCardController.card = card;
 
             enemyCards[xPos, yPos] = enemyCardController;

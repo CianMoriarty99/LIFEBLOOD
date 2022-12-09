@@ -18,13 +18,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5222d196629780449825d8f9eb8df646, type: 3}
   - {fileID: 21300000, guid: 8e6cfab09c78621489021a1a6e84929a, type: 3}
   backArtwork: {fileID: 0}
-  cardName: Priestess
-  cardType: 0
-  cardRange: 1
+  cardName: PRIESTESS
   energyCost: 1
-  health: 3
-  baseDamage: 1
-  passiveDesc: 'Trueshot: Give adjacent ranged allies +1 damage'
-  e1Desc: Piercing strike - Damage an enemy
-  e2Desc: Chain shot - Hit each enemy on the board with a weakened shot
-  e3Desc: Starfall - Remove one power from each enemy card
+  maxHealth: 0
+  spells: []
+  passiveAnimation: {fileID: 0}
+  castMaterial: {fileID: 0}
+  hoverMaterial: {fileID: 0}

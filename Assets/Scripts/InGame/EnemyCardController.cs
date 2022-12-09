@@ -17,7 +17,6 @@ public class EnemyCardController : MonoBehaviour
     public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
     public float dissolveTime;
     public GameObject destroyCardAnimation;
-    GameManager gm;
 
     // Start is called before the first frame update
     void Start()

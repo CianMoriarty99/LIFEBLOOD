@@ -18,11 +18,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bbf4da65ab4e920408b8e331c8616d1d, type: 3}
   - {fileID: 21300000, guid: db6390914fe422745bdc5eac9b63d1f9, type: 3}
   backArtwork: {fileID: 21300000, guid: 83e38bede055ad54f993fae03bb96e19, type: 3}
-  cardName: Brute
+  cardName: BRUISER
   energyCost: 1
   maxHealth: 5
   spells:
-  - desc: Attacks deal -1/-2/-3 to this card
+  - desc: Attacks deal 0/1/2 less damage to this card
     subPhase: 0
     affectedTiles: []
     animation: {fileID: 1341365785022538, guid: 49f4a2628a72b0846afe42d196c02e6c, type: 3}
@@ -40,7 +40,7 @@ MonoBehaviour:
     animation: {fileID: 1786363542552736794, guid: 34f402ebb9cdff34bb1329aff341129f, type: 3}
     animationTime: 1
     damage: 2
-  - desc: Redirect attacks from adjacent enemies to this card
+  - desc: Protect your adjacent allies with your shield for 2 damage
     subPhase: 0
     affectedTiles: []
     animation: {fileID: 1598533638775410, guid: 8d9acef849f7240468daa95c1c7f14c4, type: 3}
@@ -51,7 +51,7 @@ MonoBehaviour:
     affectedTiles: []
     animation: {fileID: 1598533638775410, guid: 8d9acef849f7240468daa95c1c7f14c4, type: 3}
     animationTime: 1
-    damage: 2
+    damage: 3
   passiveAnimation: {fileID: 767212142338395449, guid: 5044a73e7f536bb42803b9b4e79dfe26, type: 3}
   castMaterial: {fileID: 2100000, guid: 9989147526a84334c932ae785491cd4d, type: 2}
   hoverMaterial: {fileID: 2100000, guid: 98536f43d23842c40b204f5a66781bef, type: 2}
