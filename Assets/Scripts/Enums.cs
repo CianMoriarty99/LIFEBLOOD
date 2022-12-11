@@ -14,5 +14,5 @@ public enum Scene
 public enum Board
 {
     Width = 5,
-    Height = 2
+    Height = 4
 }

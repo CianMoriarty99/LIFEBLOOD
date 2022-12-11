@@ -8,7 +8,8 @@ public class CardController : MonoBehaviour
     private SpriteRenderer m_SpriteRenderer;
     [SerializeField]
     private TextMeshPro health, energyCost;
-    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell, isEnemyCard;
+    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell;
+    public bool isEnemyCard;
     public Transform mostRecentNode;
     public DeckController deck;
     public GameObject defaultBigCard, worldViewDetails;
@@ -277,7 +278,7 @@ public class CardController : MonoBehaviour
         {
             this.transform.position = new Vector3(mostRecentNode.position.x, mostRecentNode.position.y, mostRecentNode.position.z - 0.1f);
             boardPosition = mostRecentNodeCoords;
-            lbm.playerBoard[boardPosition.x, boardPosition.y] = card;
+            lbm.board[boardPosition.x, boardPosition.y] = this;
             this.m_SpriteRenderer.sortingOrder = -7;
             var tmp = GetComponent<EnableHighlight>().highlight.GetComponent<SpriteRenderer>().sortingOrder = -8;
 
@@ -362,7 +363,12 @@ public class CardController : MonoBehaviour
 
         Vector3 locationOfSpellInstance = new Vector3(a, b, -1.5f);
 
-        var spellAnimation = Instantiate(spell.animation, locationOfSpellInstance, spell.animation.transform.rotation);
+        int r = isEnemyCard ? 180 : 0;
+
+        Vector3 rot = spell.animation.transform.rotation.eulerAngles;
+        Quaternion rotation = Quaternion.Euler(rot.x + r, rot.y, rot.z);
+
+        var spellAnimation = Instantiate(spell.animation, locationOfSpellInstance, rotation);
 
         ParticleSystem[] ps = spellAnimation.GetComponentsInChildren<ParticleSystem>();
 

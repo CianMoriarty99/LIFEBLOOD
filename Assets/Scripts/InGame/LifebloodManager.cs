@@ -33,8 +33,8 @@ public class LifebloodManager : MonoBehaviour
 
     public List<(CardController, float, SubPhasePlayed)> spellOrder = new List<(CardController, float, SubPhasePlayed)>();
 
-    public Card[,] playerBoard = new Card[(int)Board.Width, (int)Board.Height];
-    public Card[,] enemyBoard = new Card[(int)Board.Width, (int)Board.Height];
+    public CardController[,] board = new CardController[(int)Board.Width, (int)Board.Height];
+
 
     public float[] boardSpaceInWorldX;
     public float[] boardSpaceInWorldY;
@@ -76,18 +76,36 @@ public class LifebloodManager : MonoBehaviour
 
     }
 
-    bool CheckForAliveCard(Card[,] board)
+    bool CheckForAliveCard(CardController[,] board, bool checkPlayer)
     {
-        for (int i = 0; i < board.GetLength(0); i++)
+
+        if(checkPlayer)
         {
-            for (int j = 0; j < board.GetLength(1); j++)
+            for (int i = 0; i < 5; i++)
             {
-                if (board[i, j] != null)
+                for (int j = 0; j < 2; j++)
                 {
-                    return false;
+                    if (board[i, j] != null)
+                    {
+                        return false;
+                    }
                 }
             }
         }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 2; j < 4; j++)
+                {
+                    if (board[i, j] != null)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
 
         return true;
     }
@@ -96,8 +114,8 @@ public class LifebloodManager : MonoBehaviour
     {
         if (hasBattled)
         {
-            bool playerLost = CheckForAliveCard(playerBoard);
-            bool enemyLost = CheckForAliveCard(enemyBoard);
+            bool playerLost = CheckForAliveCard(board, true);
+            bool enemyLost = CheckForAliveCard(board, false);
 
             if (playerLost)
             {
@@ -173,31 +191,28 @@ public class LifebloodManager : MonoBehaviour
         var spell = cc.GetCurrentSpell();
         StartCoroutine(cc.CastSpell());
 
-        //TODO make parameter probably
-        bool enemySpell = false;
 
-        var cardPosition = cc.boardPosition;
-        var affectedEnemyTiles = spell.affectedTiles
-            .Select(tile => cardPosition.Add(tile, enemySpell))
+        var spellCardPosition = cc.boardPosition;
+        var affectedTiles = spell.affectedTiles
+            .Select(tile => spellCardPosition.Add(tile, cc.isEnemyCard))
             .Where(tile => tile.IsValid());
 
-        var enemyCards = gm.enemyCards;
 
         //Global spells
         if(spell.affectedTiles.Length == 0)
         {
-            foreach (var enemy in enemyCards)
+            foreach (var card in board)
             {
-                if(enemy)
-                    enemy.TakeDamage(spell.damage);
+                if(card && card.isEnemyCard != cc.isEnemyCard)
+                    card.TakeDamage(spell.damage);
             }
         } else
         {
             //Local spells
-            foreach (var enemyCardPosition in affectedEnemyTiles)
+            foreach (var cardPosition in affectedTiles)
             {
-                var enemyCard = enemyCards[(int)enemyCardPosition.x, (int)enemyCardPosition.y];
-                if (enemyCard != null)
+                var enemyCard = board[(int)cardPosition.x, (int)cardPosition.y];
+                if (enemyCard && enemyCard.isEnemyCard != cc.isEnemyCard)
                 {
                     enemyCard.TakeDamage(spell.damage);
                 }

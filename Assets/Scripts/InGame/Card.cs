@@ -12,6 +12,7 @@ public class Card : ScriptableObject
     public GameObject passiveAnimation;
     public Material castMaterial;
     public Material hoverMaterial;
+    public int placementPriority;
 }
 
 public enum CardName

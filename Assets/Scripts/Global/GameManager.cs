@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour
     public Card[] possibleCards;
     public List<Card> deck;
     public List<Card> enemyDeck;
-    public CardController[,] enemyCards = new CardController[(int)Board.Width, (int)Board.Height * 2];
+    //public CardController[,] enemyCards = new CardController[(int)Board.Width, (int)Board.Height * 2];
     public GameObject enemyCardPrefab;
+    public LifebloodManager lifebloodManager;
 
     public bool placedEnemyDeck = false;
 
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        lifebloodManager = LifebloodManager.instance;
     }
 
     // Update is called once per frame
@@ -88,7 +91,11 @@ public class GameManager : MonoBehaviour
 
     public void PlaceEnemyDeck()
     {
-        int boardSlots = (int)Board.Width * (int)Board.Height;
+        //Sort enemy deck by placement priority
+        List<Card> sortedEnemyDeck = enemyDeck;
+        sortedEnemyDeck.Sort((x1, x2) => x1.placementPriority.CompareTo(x2.placementPriority));
+
+        int boardSlots = (int)Board.Width * (int)Board.Height / 2;
         var availableLocations = Enumerable.Range(0, boardSlots - 1).ToList();
 
         foreach (Card card in enemyDeck)
@@ -98,7 +105,7 @@ public class GameManager : MonoBehaviour
             int index = availableLocations[r];
 
             int xPos = index % (int)Board.Width;
-            int yPos = ((int)Board.Height * 2) - (index / (int)Board.Width) - 1;
+            int yPos = ((int)Board.Height) - (index / (int)Board.Width) - 1;
 
             var transforms = GameObject.FindObjectOfType<EnemyBoardPositions>();
             var enemyCard = Instantiate(enemyCardPrefab, transforms.bp[index]);
@@ -106,13 +113,17 @@ public class GameManager : MonoBehaviour
             CardController enemyCardController = enemyCard.GetComponent<CardController>();
             enemyCardController.card = card;
 
-            enemyCards[xPos, yPos] = enemyCardController;
+            LifebloodManager.instance.board[xPos, yPos] = enemyCardController;
+
+            enemyCardController.boardPosition = new Position(xPos, yPos);
 
             availableLocations.RemoveAt(r);
         }
 
+        
         placedEnemyDeck = true;
     }
+
 
 
 }

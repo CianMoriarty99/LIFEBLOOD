@@ -23,7 +23,7 @@ public class Position
     /// </summary>
     public bool IsValid()
     {
-        return x >= 0 && x < (int)Board.Width && y >= 0 && y < (int)Board.Height * 2;
+        return x >= 0 && x < (int)Board.Width && y >= 0 && y < (int)Board.Height;
     }
 
     /// <summary>
