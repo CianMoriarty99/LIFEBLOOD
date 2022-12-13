@@ -28,7 +28,7 @@ public class CardController : MonoBehaviour
     public bool reductionAuraApplied;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Init();
     }
@@ -84,6 +84,7 @@ public class CardController : MonoBehaviour
 
     void Init()
     {
+        isEnemyCard = false;
         currentHealth = card.maxHealth;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = card.artwork[0];
@@ -101,7 +102,7 @@ public class CardController : MonoBehaviour
         castingSpell = false;
         fadeTimer = 0.5f;
         defaultTimer = 0.5f;
-        isEnemyCard = true;
+        
     }
 
     void AddCardToBattleOrder()
@@ -121,7 +122,7 @@ public class CardController : MonoBehaviour
 
     void IncreaseCardPowerLevel()
     {
-        if (lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE && Input.GetMouseButtonDown(1) && mousingOver)
+        if (!isEnemyCard && lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE && Input.GetMouseButtonDown(1) && mousingOver)
         {
             if (powerLevel == 3)
             {
@@ -295,7 +296,6 @@ public class CardController : MonoBehaviour
             this.transform.position = new Vector3(transform.position.x, transform.position.y, -1.65f);
         }
 
-        isEnemyCard = false;
         dragging = false;
     }
 
@@ -398,7 +398,7 @@ public class CardController : MonoBehaviour
     #region Events
     void OnMouseDrag()
     {
-        if (lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
+        if (!isEnemyCard && lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE)
         {
             if (gm.currentScene == Scene.InGame)
             {

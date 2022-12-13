@@ -623,6 +623,7 @@ MonoBehaviour:
   card: {fileID: 11400000, guid: 2ca5f6ebaa5886f43b39aefc258a09dd, type: 2}
   health: {fileID: 143172396287303622}
   energyCost: {fileID: 143172396324106062}
+  isEnemyCard: 0
   mostRecentNode: {fileID: 0}
   deck: {fileID: 0}
   defaultBigCard: {fileID: 7078201421620118596}
@@ -630,6 +631,7 @@ MonoBehaviour:
   startingScale: {x: 0, y: 0, z: 0}
   lbm: {fileID: 0}
   powerLevel: 0
+  damageReduction: 0
   spawnAnimationPrefab: {fileID: 2605316480486226868, guid: 114ab6919cf39484e946697e02cfa078, type: 3}
   spellCastAnimation: {fileID: 0}
   passiveAnimationPrefab: {fileID: 0}
@@ -648,6 +650,7 @@ MonoBehaviour:
   fadeTimer: 0
   defaultTimer: 0
   dissolveTime: 0
+  reductionAuraApplied: 0
 --- !u!61 &143172396409914770
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -815,7 +818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5725087398449092348, guid: 72c3a39fb34366145a0a28eb2d2da962, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.4
+      value: -1000
       objectReference: {fileID: 0}
     - target: {fileID: 5725087398449092348, guid: 72c3a39fb34366145a0a28eb2d2da962, type: 3}
       propertyPath: m_LocalPosition.y

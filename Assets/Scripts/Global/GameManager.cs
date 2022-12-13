@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public List<Card> deck;
     public List<Card> enemyDeck;
     //public CardController[,] enemyCards = new CardController[(int)Board.Width, (int)Board.Height * 2];
-    public GameObject enemyCardPrefab;
+    public GameObject cardPrefab;
     public LifebloodManager lifebloodManager;
 
     public bool placedEnemyDeck = false;
@@ -108,10 +108,12 @@ public class GameManager : MonoBehaviour
             int yPos = ((int)Board.Height) - (index / (int)Board.Width) - 1;
 
             var transforms = GameObject.FindObjectOfType<EnemyBoardPositions>();
-            var enemyCard = Instantiate(enemyCardPrefab, transforms.bp[index]);
+            var enemyCard = Instantiate(cardPrefab, transforms.bp[index]);
 
             CardController enemyCardController = enemyCard.GetComponent<CardController>();
             enemyCardController.card = card;
+
+            enemyCardController.isEnemyCard = true;
 
             LifebloodManager.instance.board[xPos, yPos] = enemyCardController;
 
