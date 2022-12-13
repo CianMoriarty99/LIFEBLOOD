@@ -45,11 +45,7 @@ public class CardController : MonoBehaviour
         AddCardToBattleOrder();
         PlayPassiveEffect();
         ChangeMaterial();
-        Dissolve();
         UpdateDamageReduction();
-
-
-
     }
 
     void UpdateDamageReduction()
@@ -70,16 +66,6 @@ public class CardController : MonoBehaviour
 
         damageReduction = tmp;
         
-    }
-
-    void Dissolve()
-    {
-        if (isDissolving)
-        {
-            m_SpriteRenderer.material.SetFloat("_DissolveAmount", dissolveTime);
-            dissolveTime += Time.deltaTime;
-        }
-
     }
 
     void Init()
@@ -183,6 +169,11 @@ public class CardController : MonoBehaviour
                 m_SpriteRenderer.material = hoverMaterial;
             }
 
+        }
+        else if (isDissolving)
+        {
+            m_SpriteRenderer.material.SetFloat("_DissolveAmount", dissolveTime);
+            dissolveTime += Time.deltaTime;
         }
         else
         {
@@ -342,7 +333,6 @@ public class CardController : MonoBehaviour
         Destroy(gameObject);
         Destroy(anim);
     }
-
 
     IEnumerator TakeDamageAnimation()
     {
