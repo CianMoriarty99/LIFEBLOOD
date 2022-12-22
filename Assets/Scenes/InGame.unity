@@ -2335,7 +2335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362775977}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.89, z: -1.62}
+  m_LocalPosition: {x: 0, y: -4.89, z: -12.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2716,7 +2716,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1451206755}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -7.6, z: 3.35}
+  m_LocalPosition: {x: 0, y: -7.6, z: -12.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3444,7 +3444,7 @@ GameObject:
   - component: {fileID: 1943283069}
   - component: {fileID: 1943283068}
   m_Layer: 0
-  m_Name: Square
+  m_Name: BG_SHADE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3542,7 +3542,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2012058019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.3, z: 6.15}
+  m_LocalPosition: {x: 0, y: -0.3, z: -0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3563,7 +3563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cards: []
   cardPrefab: {fileID: 143172396409914774, guid: b1ab4b6baaf68884da9c186b68e48ae0, type: 3}
-  zPosition: -2.75
+  zPosition: -14
 --- !u!1 &2013573377
 GameObject:
   m_ObjectHideFlags: 0
@@ -3932,7 +3932,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4087447911225745059, guid: 29668518dc36ade4fa540cdfc459825c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13.14
+      value: -23.1
       objectReference: {fileID: 0}
     - target: {fileID: 4087447911225745059, guid: 29668518dc36ade4fa540cdfc459825c, type: 3}
       propertyPath: m_LocalRotation.w

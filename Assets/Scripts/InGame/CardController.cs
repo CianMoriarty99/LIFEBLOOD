@@ -23,6 +23,7 @@ public class CardController : MonoBehaviour
     public Position boardPosition, mostRecentNodeCoords;
     public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
     public float fadeTimer, defaultTimer, dissolveTime;
+    public GameObject aura;
 
     //Auras
     public bool reductionAuraApplied;
@@ -46,6 +47,34 @@ public class CardController : MonoBehaviour
         PlayPassiveEffect();
         ChangeMaterial();
         UpdateDamageReduction();
+        InitialiseAura();
+    }
+
+    void InitialiseAura()
+    {
+        if(aura)
+        {
+            aura.SetActive(false);
+        }
+
+        if (card.cardName == CardName.BRUISER)
+        {
+            if(powerLevel == 2)
+            {
+                aura.SetActive(true);
+
+                if(isEnemyCard)
+                {
+                    aura.tag = "BRUISER_DAMAGE_REDUCTION_ENEMY";
+                }
+                else
+                {
+                    aura.tag = "BRUISER_DAMAGE_REDUCTION_ALLY";
+                }
+                
+            }
+        }
+
     }
 
     void UpdateDamageReduction()
@@ -61,7 +90,7 @@ public class CardController : MonoBehaviour
         //REDUCTION AURA
         if(reductionAuraApplied)
         {
-            tmp += 1;
+            tmp += 2;
         }
 
         damageReduction = tmp;
@@ -88,7 +117,6 @@ public class CardController : MonoBehaviour
         castingSpell = false;
         fadeTimer = 0.5f;
         defaultTimer = 0.5f;
-        
     }
 
     void AddCardToBattleOrder()
@@ -418,5 +446,7 @@ public class CardController : MonoBehaviour
         mousingOver = false;
         this.transform.localScale = startingScale;
     }
+
+
     #endregion
 }

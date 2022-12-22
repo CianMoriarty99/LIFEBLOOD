@@ -8,6 +8,8 @@ TagManager:
   - LIFEBLOODINDICATOR
   - Deck
   - Camera
+  - BRUISER_DAMAGE_REDUCTION_ALLY
+  - BRUISER_DAMAGE_REDUCTION_ENEMY
   layers:
   - Default
   - TransparentFX

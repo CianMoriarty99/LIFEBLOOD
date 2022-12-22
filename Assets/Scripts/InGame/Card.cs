@@ -13,6 +13,7 @@ public class Card : ScriptableObject
     public Material castMaterial;
     public Material hoverMaterial;
     public int placementPriority;
+    public GameObject aura;
 }
 
 public enum CardName
