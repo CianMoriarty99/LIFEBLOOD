@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class AuraController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float areaOfEffect;
+    public int damageReductionStrength;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

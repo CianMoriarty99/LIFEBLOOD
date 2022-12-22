@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CardController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class CardController : MonoBehaviour
     GameManager gm;
     ScreenShake sh;
     public int powerLevel, damageReduction;
+    public List<int> damageReductionsFromAuras;
     private int currentHealth;
     public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation, destroyCardAnimation;
     public Position boardPosition, mostRecentNodeCoords;
@@ -32,6 +34,7 @@ public class CardController : MonoBehaviour
     void Awake()
     {
         Init();
+        InitialiseAura();
     }
 
     // Update is called once per frame
@@ -47,34 +50,57 @@ public class CardController : MonoBehaviour
         PlayPassiveEffect();
         ChangeMaterial();
         UpdateDamageReduction();
-        InitialiseAura();
+        SetAuraActive();
+        ApplyAuras();
     }
 
     void InitialiseAura()
     {
         if(aura)
         {
+
+            if (isEnemyCard)
+            {
+                aura.tag = "ENEMY_AURA";
+            }
+            else
+            {
+                aura.tag = "ALLY_AURA";
+            }
+
+
+            if (card.cardName == CardName.BRUISER)
+            {
+                AuraController ac = aura.GetComponent<AuraController>();
+                ac.damageReductionStrength = 2;
+                ac.areaOfEffect = 4.45f;
+            }
+
             aura.SetActive(false);
+
         }
 
-        if (card.cardName == CardName.BRUISER)
+    }
+
+    void SetAuraActive()
+    {
+        if (lbm && aura)
         {
-            if(powerLevel == 2)
+            if (card.cardName == CardName.BRUISER && powerLevel == 2)
             {
                 aura.SetActive(true);
-
-                if(isEnemyCard)
-                {
-                    aura.tag = "BRUISER_DAMAGE_REDUCTION_ENEMY";
-                }
-                else
-                {
-                    aura.tag = "BRUISER_DAMAGE_REDUCTION_ALLY";
-                }
-                
             }
-        }
+            else
+            {
+                aura.SetActive(false);
+            }
 
+            if(lbm.refreshAuras == false)
+            {
+                lbm.refreshAuras = true;
+            }
+
+        }
     }
 
     void UpdateDamageReduction()
@@ -84,17 +110,59 @@ public class CardController : MonoBehaviour
         //BRUISER
         if(card.cardName == CardName.BRUISER)
         {
-            tmp += (powerLevel - 1);
+            tmp += Mathf.Max((powerLevel - 1),0);
         }
 
-        //REDUCTION AURA
-        if(reductionAuraApplied)
+        //REDUCTION AURAS
+        foreach (int aura in damageReductionsFromAuras)
         {
-            tmp += 2;
+            tmp += aura;
         }
+
 
         damageReduction = tmp;
         
+    }
+
+    void ApplyAuras()
+    {
+        if(lbm && lbm.refreshAuras)
+        {
+            damageReductionsFromAuras = new List<int>() { };
+            //Get all auras with range and tag
+            if (isEnemyCard)
+            {
+                GameObject[] auras = GameObject.FindGameObjectsWithTag("ENEMY_AURA");
+                foreach( GameObject aura in auras)
+                {
+                    AuraController ac = aura.GetComponent<AuraController>();
+                    if (Vector2.Distance(aura.transform.position, this.transform.position) < ac.areaOfEffect)
+                    {
+                        damageReductionsFromAuras.Add(ac.damageReductionStrength);
+                    }
+
+
+                }
+            }
+            else
+            {
+                {
+                    GameObject[] auras = GameObject.FindGameObjectsWithTag("ALLY_AURA");
+                    foreach (GameObject aura in auras)
+                    {
+                        AuraController ac = aura.GetComponent<AuraController>();
+                        if (Vector2.Distance(aura.transform.position, this.transform.position) < ac.areaOfEffect)
+                        {
+                            damageReductionsFromAuras.Add(ac.damageReductionStrength);
+                        }
+
+
+                    }
+                }
+            }
+
+        }
+
     }
 
     void Init()

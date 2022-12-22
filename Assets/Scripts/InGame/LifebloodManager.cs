@@ -29,7 +29,7 @@ public class LifebloodManager : MonoBehaviour
 
     public PHASE phase;
 
-    public bool mousingOver, battleEnded, hasBattled;
+    public bool mousingOver, battleEnded, hasBattled, refreshAuras;
 
     public List<(CardController, float, SubPhasePlayed)> spellOrder = new List<(CardController, float, SubPhasePlayed)>();
 
@@ -47,6 +47,7 @@ public class LifebloodManager : MonoBehaviour
         lifeblood = gm.lifeblood;
         maxLifeblood = gm.maxLifeblood;
         phase = PHASE.PLACEPHASE;
+        refreshAuras = false;
     }
 
     // Update is called once per frame
@@ -73,7 +74,19 @@ public class LifebloodManager : MonoBehaviour
 
         CheckForBattleEnd();
 
+        if(refreshAuras == true)
+        {
+            StartCoroutine(RefreshAuras());
+        }
 
+
+
+    }
+
+    IEnumerator RefreshAuras()
+    {
+        yield return new WaitForSeconds(0.1f);
+        refreshAuras = false;
     }
 
     bool CheckForAliveCard(CardController[,] board, bool checkPlayer)
@@ -224,12 +237,14 @@ public class LifebloodManager : MonoBehaviour
 
     IEnumerator LoseGameSequence()
     {
+        Debug.Log("You Lost");
         hasBattled = false;
         yield return new WaitForSeconds(2f);
     }
 
     IEnumerator WinBattleSequence()
     {
+        Debug.Log("You Won");
         hasBattled = false;
         yield return new WaitForSeconds(2f);
     }
