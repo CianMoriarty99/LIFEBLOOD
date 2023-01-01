@@ -20,7 +20,7 @@ public class CardController : MonoBehaviour
     ScreenShake sh;
     public int powerLevel, damageReduction;
     public List<int> damageReductionsFromAuras;
-    private int currentHealth;
+    public int currentHealth;
     public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation, destroyCardAnimation;
     public Position boardPosition, mostRecentNodeCoords;
     public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
@@ -107,18 +107,21 @@ public class CardController : MonoBehaviour
     {
         int tmp = 0;
 
-        //BRUISER
-        if(card.cardName == CardName.BRUISER)
-        {
-            tmp += Mathf.Max((powerLevel - 1),0);
-        }
-
         //REDUCTION AURAS
         foreach (int aura in damageReductionsFromAuras)
         {
             tmp += aura;
         }
 
+        
+        //BRUISER
+        if (card.cardName == CardName.BRUISER)
+        {
+            tmp += Mathf.Max((powerLevel - 1), 0);
+
+            //Set Power of Bruiser spell 3
+            card.spells[3].damage = tmp;
+        }
 
         damageReduction = tmp;
         
