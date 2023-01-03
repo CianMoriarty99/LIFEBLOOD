@@ -37,6 +37,11 @@ public class CardController : MonoBehaviour
         InitialiseAura();
     }
 
+    private void Start()
+    {
+        CopyCardDetails();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -49,9 +54,19 @@ public class CardController : MonoBehaviour
         AddCardToBattleOrder();
         PlayPassiveEffect();
         ChangeMaterial();
-        UpdateDamageReduction();
         SetAuraActive();
         ApplyAuras();
+    }
+
+    private void LateUpdate()
+    {
+        UpdateDamageReduction();
+    }
+
+    void CopyCardDetails()
+    {
+        var clone = Instantiate(card);
+        card = clone;
     }
 
     void InitialiseAura()
@@ -117,7 +132,7 @@ public class CardController : MonoBehaviour
         //BRUISER
         if (card.cardName == CardName.BRUISER)
         {
-            tmp += Mathf.Max((powerLevel - 1), 0);
+            tmp += Mathf.Max((powerLevel), 0);
 
             //Set Power of Bruiser spell 3
             card.spells[3].damage = tmp;

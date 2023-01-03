@@ -216,8 +216,11 @@ public class LifebloodManager : MonoBehaviour
         {
             foreach (var card in board)
             {
-                if(card && card.isEnemyCard != cc.isEnemyCard)
+                if (card && card.isEnemyCard != cc.isEnemyCard)
+                {
                     card.TakeDamage(spell.damage);
+                }
+
             }
         } else
         {
