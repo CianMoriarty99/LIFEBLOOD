@@ -12,6 +12,8 @@ public class Card : ScriptableObject
     public GameObject passiveAnimation;
     public Material castMaterial;
     public Material hoverMaterial;
+    public Material dyingMaterial;
+    public Material destroyMaterial;
     public int placementPriority;
     public GameObject aura;
 

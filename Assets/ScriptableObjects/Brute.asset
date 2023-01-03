@@ -20,9 +20,9 @@ MonoBehaviour:
   backArtwork: {fileID: 21300000, guid: 83e38bede055ad54f993fae03bb96e19, type: 3}
   cardName: 0
   energyCost: 1
-  maxHealth: 5
+  maxHealth: 10
   spells:
-  - desc: Attacks deal 0/1/2 less damage to this card
+  - desc: Grants this card 1/2/3 damage reduction
     subPhase: 0
     affectedTiles: []
     animation: {fileID: 1341365785022538, guid: 49f4a2628a72b0846afe42d196c02e6c, type: 3}
@@ -46,12 +46,12 @@ MonoBehaviour:
     animation: {fileID: 1598533638775410, guid: 8d9acef849f7240468daa95c1c7f14c4, type: 3}
     animationTime: 1
     damage: 0
-  - desc: Hit all enemies for 3 damage
+  - desc: Hit all enemies for damage equal to this card's damage reduction
     subPhase: 1
     affectedTiles: []
     animation: {fileID: 1598533638775410, guid: 8d9acef849f7240468daa95c1c7f14c4, type: 3}
     animationTime: 1
-    damage: 3
+    damage: 0
   passiveAnimation: {fileID: 767212142338395449, guid: 5044a73e7f536bb42803b9b4e79dfe26, type: 3}
   castMaterial: {fileID: 2100000, guid: 9989147526a84334c932ae785491cd4d, type: 2}
   hoverMaterial: {fileID: 2100000, guid: 98536f43d23842c40b204f5a66781bef, type: 2}

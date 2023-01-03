@@ -634,6 +634,7 @@ MonoBehaviour:
   powerLevel: 0
   damageReduction: 0
   damageReductionsFromAuras: 
+  currentHealth: 0
   spawnAnimationPrefab: {fileID: 2605316480486226868, guid: 114ab6919cf39484e946697e02cfa078, type: 3}
   spellCastAnimation: {fileID: 0}
   passiveAnimationPrefab: {fileID: 0}
@@ -648,6 +649,7 @@ MonoBehaviour:
   defaultMaterial: {fileID: 0}
   castMaterial: {fileID: 0}
   hoverMaterial: {fileID: 0}
+  dyingMaterial: {fileID: 0}
   destroyMaterial: {fileID: 2100000, guid: 179555ab8bd66734b8c1ac67e84c7cbc, type: 2}
   fadeTimer: 0
   defaultTimer: 0

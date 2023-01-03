@@ -9,7 +9,7 @@ public class CardController : MonoBehaviour
     private SpriteRenderer m_SpriteRenderer;
     [SerializeField]
     private TextMeshPro health, energyCost;
-    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell;
+    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell, cardIsDying;
     public bool isEnemyCard;
     public Transform mostRecentNode;
     public DeckController deck;
@@ -23,7 +23,7 @@ public class CardController : MonoBehaviour
     public int currentHealth;
     public GameObject spawnAnimationPrefab, spellCastAnimation, passiveAnimationPrefab, passiveAnimation, destroyCardAnimation;
     public Position boardPosition, mostRecentNodeCoords;
-    public Material defaultMaterial, castMaterial, hoverMaterial, destroyMaterial;
+    public Material defaultMaterial, castMaterial, hoverMaterial, dyingMaterial, destroyMaterial;
     public float fadeTimer, defaultTimer, dissolveTime;
     public GameObject aura;
 
@@ -60,6 +60,7 @@ public class CardController : MonoBehaviour
 
     private void LateUpdate()
     {
+        CheckForCardDestroyed();
         UpdateDamageReduction();
     }
 
@@ -136,6 +137,12 @@ public class CardController : MonoBehaviour
 
             //Set Power of Bruiser spell 3
             card.spells[3].damage = tmp;
+
+            //Don't apply shield aura to self
+            if(powerLevel == 2)
+            {
+                tmp -= 2;
+            }
         }
 
         damageReduction = tmp;
@@ -192,6 +199,8 @@ public class CardController : MonoBehaviour
         defaultMaterial = m_SpriteRenderer.material;
         castMaterial = card.castMaterial;
         hoverMaterial = card.hoverMaterial;
+        dyingMaterial = card.dyingMaterial;
+        destroyMaterial = card.destroyMaterial;
         health.text = currentHealth.ToString();
         energyCost.text = card.energyCost.ToString();
         dragging = false;
@@ -203,6 +212,7 @@ public class CardController : MonoBehaviour
         castingSpell = false;
         fadeTimer = 0.5f;
         defaultTimer = 0.5f;
+        cardIsDying = false;
     }
 
     void AddCardToBattleOrder()
@@ -275,7 +285,7 @@ public class CardController : MonoBehaviour
             m_SpriteRenderer.material = castMaterial;
             fadeTimer = defaultTimer;
         }
-        else if (mousingOver && !firstTimeBeingPlayed && !dragging)
+        else if (lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE && mousingOver && !firstTimeBeingPlayed && !dragging)
         {
             fadeTimer -= Time.deltaTime;
             if (fadeTimer <= 0)
@@ -288,6 +298,10 @@ public class CardController : MonoBehaviour
         {
             m_SpriteRenderer.material.SetFloat("_DissolveAmount", dissolveTime);
             dissolveTime += Time.deltaTime;
+        }
+        else if(cardIsDying)
+        {
+
         }
         else
         {
@@ -413,15 +427,23 @@ public class CardController : MonoBehaviour
 
         currentHealth -= dmg;
 
-        health.text = currentHealth.ToString();
+        StartCoroutine(TakeDamageAnimation());
 
-        if (currentHealth <= 0)
+        if(currentHealth <= 0)
+        {
+            //change material to be darker to reflect that it's about to die at the end of the turn
+            m_SpriteRenderer.material = dyingMaterial;
+            cardIsDying = true;
+        }
+    }
+
+    public void CheckForCardDestroyed()
+    {
+        if(lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE && currentHealth <= 0)
         {
             StartCoroutine(DestroyCardAnimation());
-        } else
-        {
-            StartCoroutine(TakeDamageAnimation());
         }
+
     }
 
     #region Animations
@@ -451,7 +473,10 @@ public class CardController : MonoBehaviour
     IEnumerator TakeDamageAnimation()
     {
         yield return new WaitForSeconds(0.3f);
-        health.text = currentHealth.ToString(); //Add this to the animation part so it gets delayed correctly.
+
+        int healthToShow = Mathf.Max(currentHealth, 0);
+
+        health.text = healthToShow.ToString(); //Add this to the animation part so it gets delayed correctly.
 
     }
     #endregion
