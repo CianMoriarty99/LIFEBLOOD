@@ -9,7 +9,7 @@ public class CardController : MonoBehaviour
     private SpriteRenderer m_SpriteRenderer;
     [SerializeField]
     private TextMeshPro health, energyCost;
-    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell, cardIsDying;
+    private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell, cardIsDying, cardDestroyed;
     public bool isEnemyCard;
     public Transform mostRecentNode;
     public DeckController deck;
@@ -192,6 +192,7 @@ public class CardController : MonoBehaviour
 
     void Init()
     {
+        cardDestroyed = false;
         isEnemyCard = false;
         currentHealth = card.maxHealth;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
@@ -439,9 +440,10 @@ public class CardController : MonoBehaviour
 
     public void CheckForCardDestroyed()
     {
-        if(lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE && currentHealth <= 0)
+        if(cardDestroyed == false && lbm && lbm.phase == LifebloodManager.PHASE.PLACEPHASE && currentHealth <= 0)
         {
             StartCoroutine(DestroyCardAnimation());
+            cardDestroyed = true;
         }
 
     }

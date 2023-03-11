@@ -55,5 +55,7 @@ MonoBehaviour:
   passiveAnimation: {fileID: 767212142338395449, guid: 5044a73e7f536bb42803b9b4e79dfe26, type: 3}
   castMaterial: {fileID: 2100000, guid: 9989147526a84334c932ae785491cd4d, type: 2}
   hoverMaterial: {fileID: 2100000, guid: 98536f43d23842c40b204f5a66781bef, type: 2}
+  dyingMaterial: {fileID: 2100000, guid: 9f92e37dd8633f94c950ce0f4a164008, type: 2}
+  destroyMaterial: {fileID: 2100000, guid: 179555ab8bd66734b8c1ac67e84c7cbc, type: 2}
   placementPriority: 0
   aura: {fileID: 0}
