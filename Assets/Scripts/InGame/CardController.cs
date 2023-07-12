@@ -253,7 +253,18 @@ public class CardController : MonoBehaviour
 
     void PlayPassiveEffect()
     {
-        if (mousingOver && !firstTimeBeingPlayed && !dragging)
+        
+        bool cardConditions = false;
+
+        if (card.cardName == CardName.BRUISER)
+        {
+            if (powerLevel == 2)
+            {
+                cardConditions = true;
+            }
+        }
+
+        if (mousingOver && !firstTimeBeingPlayed && !dragging && cardConditions)
         {
             if (fadeTimer + 0.1f <= 0)
             {

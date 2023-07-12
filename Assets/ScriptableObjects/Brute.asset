@@ -43,8 +43,8 @@ MonoBehaviour:
   - desc: Protect adjacent allies with your shield for 2 damage
     subPhase: 0
     affectedTiles: []
-    animation: {fileID: 1598533638775410, guid: 8d9acef849f7240468daa95c1c7f14c4, type: 3}
-    animationTime: 1
+    animation: {fileID: 0}
+    animationTime: 0
     damage: 0
   - desc: Hit all enemies for damage equal to this card's damage reduction
     subPhase: 1
@@ -58,4 +58,4 @@ MonoBehaviour:
   dyingMaterial: {fileID: 2100000, guid: 9f92e37dd8633f94c950ce0f4a164008, type: 2}
   destroyMaterial: {fileID: 2100000, guid: 179555ab8bd66734b8c1ac67e84c7cbc, type: 2}
   placementPriority: 0
-  aura: {fileID: 0}
+  aura: {fileID: 1320316104850776, guid: 1977fc844cb969a44866c4dcd32996d1, type: 3}
