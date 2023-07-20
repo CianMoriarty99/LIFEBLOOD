@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AuraController : MonoBehaviour
 {
-    public float areaOfEffect;
+    public int manhattanDistanceOfEffect;
     public int damageReductionStrength;
-
-
 }

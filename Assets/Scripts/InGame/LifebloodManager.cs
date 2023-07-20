@@ -74,18 +74,15 @@ public class LifebloodManager : MonoBehaviour
 
         CheckForBattleEnd();
 
-        if(refreshAuras == true)
+        if (refreshAuras == true)
         {
             StartCoroutine(RefreshAuras());
         }
-
-
-
     }
 
     IEnumerator RefreshAuras()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         refreshAuras = false;
     }
 

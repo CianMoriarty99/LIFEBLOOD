@@ -49,7 +49,7 @@ MonoBehaviour:
   - desc: Hit all enemies for damage equal to this card's damage reduction
     subPhase: 1
     affectedTiles: []
-    animation: {fileID: 1598533638775410, guid: 8d9acef849f7240468daa95c1c7f14c4, type: 3}
+    animation: {fileID: 9032443897844185860, guid: 350c1efaa13331c4c8ac1ce61c89ff26, type: 3}
     animationTime: 1
     damage: 0
   passiveAnimation: {fileID: 767212142338395449, guid: 5044a73e7f536bb42803b9b4e79dfe26, type: 3}

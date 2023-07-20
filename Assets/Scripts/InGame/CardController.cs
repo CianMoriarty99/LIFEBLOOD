@@ -2,13 +2,14 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class CardController : MonoBehaviour
 {
     public Card card;
     private SpriteRenderer m_SpriteRenderer;
     [SerializeField]
-    private TextMeshPro health, energyCost;
+    private TextMeshPro health, energyCost, damageReductionText;
     private bool dragging, mousingOver, firstTimeBeingPlayed, isDissolving, hasntAddedSpellsYet, castingSpell, cardIsDying, cardDestroyed;
     public bool isEnemyCard;
     public Transform mostRecentNode;
@@ -26,6 +27,8 @@ public class CardController : MonoBehaviour
     public Material defaultMaterial, castMaterial, hoverMaterial, dyingMaterial, destroyMaterial;
     public float fadeTimer, defaultTimer, dissolveTime;
     public GameObject aura;
+    public Vector2 currentPositionCoords;
+    public GameObject damageReductionIcon;
 
     //Auras
     public bool reductionAuraApplied;
@@ -56,12 +59,24 @@ public class CardController : MonoBehaviour
         ChangeMaterial();
         SetAuraActive();
         ApplyAuras();
+        SetDamageReductionIcon();
+        UpdateDamageReduction();
     }
 
     private void LateUpdate()
     {
         CheckForCardDestroyed();
-        UpdateDamageReduction();
+    }
+
+    void SetDamageReductionIcon()
+    {
+        if(damageReduction > 0)
+        {
+            damageReductionIcon.SetActive(true);
+        } else
+        {
+            damageReductionIcon.SetActive(false);
+        }
     }
 
     void CopyCardDetails()
@@ -89,7 +104,7 @@ public class CardController : MonoBehaviour
             {
                 AuraController ac = aura.GetComponent<AuraController>();
                 ac.damageReductionStrength = 2;
-                ac.areaOfEffect = 4.45f;
+                ac.manhattanDistanceOfEffect = 1;
             }
 
             aura.SetActive(false);
@@ -109,11 +124,6 @@ public class CardController : MonoBehaviour
             else
             {
                 aura.SetActive(false);
-            }
-
-            if(lbm.refreshAuras == false)
-            {
-                lbm.refreshAuras = true;
             }
 
         }
@@ -146,7 +156,8 @@ public class CardController : MonoBehaviour
         }
 
         damageReduction = tmp;
-        
+        damageReductionText.text = damageReduction.ToString();
+
     }
 
     void ApplyAuras()
@@ -161,12 +172,10 @@ public class CardController : MonoBehaviour
                 foreach( GameObject aura in auras)
                 {
                     AuraController ac = aura.GetComponent<AuraController>();
-                    if (Vector2.Distance(aura.transform.position, this.transform.position) < ac.areaOfEffect)
+                    if (CalculateManhattanDistance(aura.transform.parent.GetComponent<CardController>().currentPositionCoords, this.currentPositionCoords) < ac.manhattanDistanceOfEffect)
                     {
                         damageReductionsFromAuras.Add(ac.damageReductionStrength);
                     }
-
-
                 }
             }
             else
@@ -176,18 +185,22 @@ public class CardController : MonoBehaviour
                     foreach (GameObject aura in auras)
                     {
                         AuraController ac = aura.GetComponent<AuraController>();
-                        if (Vector2.Distance(aura.transform.position, this.transform.position) < ac.areaOfEffect)
+                        if (CalculateManhattanDistance(aura.transform.parent.GetComponent<CardController>().currentPositionCoords, this.currentPositionCoords) <= ac.manhattanDistanceOfEffect)
                         {
                             damageReductionsFromAuras.Add(ac.damageReductionStrength);
                         }
-
-
                     }
                 }
             }
 
         }
 
+    }
+
+
+    int CalculateManhattanDistance(Vector2 pos1, Vector2 pos2)
+    {
+        return (int)Math.Round(Math.Abs(pos1.x - pos2.x) + Math.Abs(pos1.y - pos2.y));
     }
 
     void Init()
@@ -247,6 +260,7 @@ public class CardController : MonoBehaviour
             }
 
             m_SpriteRenderer.sprite = card.artwork[powerLevel];
+            lbm.refreshAuras = true;
 
         }
     }
@@ -411,6 +425,8 @@ public class CardController : MonoBehaviour
             this.transform.position = new Vector3(mostRecentNode.position.x, mostRecentNode.position.y, mostRecentNode.position.z - 0.1f);
             boardPosition = mostRecentNodeCoords;
             lbm.board[boardPosition.x, boardPosition.y] = this;
+            currentPositionCoords = new Vector2(boardPosition.x, boardPosition.y);
+
             this.m_SpriteRenderer.sortingOrder = -7;
             var tmp = GetComponent<EnableHighlight>().highlight.GetComponent<SpriteRenderer>().sortingOrder = -8;
 
@@ -427,6 +443,10 @@ public class CardController : MonoBehaviour
             this.transform.position = new Vector3(transform.position.x, transform.position.y, -1.65f);
         }
 
+        if (lbm.refreshAuras == false)
+        {
+            lbm.refreshAuras = true;
+        }
         dragging = false;
     }
 
@@ -507,26 +527,30 @@ public class CardController : MonoBehaviour
 
         int r = isEnemyCard ? 180 : 0;
 
-        Vector3 rot = spell.animation.transform.rotation.eulerAngles;
-        Quaternion rotation = Quaternion.Euler(rot.x + r, rot.y, rot.z);
-
-        var spellAnimation = Instantiate(spell.animation, locationOfSpellInstance, rotation);
-
-        ParticleSystem[] ps = spellAnimation.GetComponentsInChildren<ParticleSystem>();
-
-        foreach (ParticleSystem p in ps)
+        if (spell.animation)
         {
-            p.Play();
+            Vector3 rot = spell.animation.transform.rotation.eulerAngles;
+            Quaternion rotation = Quaternion.Euler(rot.x + r, rot.y, rot.z);
+
+            var spellAnimation = Instantiate(spell.animation, locationOfSpellInstance, rotation);
+
+            ParticleSystem[] ps = spellAnimation.GetComponentsInChildren<ParticleSystem>();
+
+            foreach (ParticleSystem p in ps)
+            {
+                p.Play();
+            }
+
+            yield return new WaitForSeconds(spell.animationTime);
+
+            foreach (ParticleSystem p in ps)
+            {
+                p.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
+
+            Destroy(spellAnimation);
+
         }
-
-        yield return new WaitForSeconds(spell.animationTime);
-
-        foreach (ParticleSystem p in ps)
-        {
-            p.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-        }
-
-        Destroy(spellAnimation);
 
         castingSpell = false;
         yield return new WaitForSeconds(0.5f);
