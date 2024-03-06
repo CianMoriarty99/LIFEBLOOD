@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,15 +9,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int lifeblood, maxLifeblood = 100;
+
+    public int currentIndex = 0;
     public Scene currentScene;
     public Card[] possibleCards;
     public List<Card> deck;
     public List<Card> enemyDeck;
     //public CardController[,] enemyCards = new CardController[(int)Board.Width, (int)Board.Height * 2];
     public GameObject cardPrefab;
-    public LifebloodManager lifebloodManager;
 
-    public bool placedEnemyDeck = false;
+    public Transform[] enemyBoardPositions;
+
+    public GameObject toast;
+    public TMP_Text toastText;
 
     private void Awake()
     {
@@ -29,8 +34,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
-
-        lifebloodManager = LifebloodManager.instance;
     }
 
     // Update is called once per frame
@@ -48,17 +51,32 @@ public class GameManager : MonoBehaviour
         {
             ChangeScene(Scene.InGame);
         }
-
-        if (placedEnemyDeck == false && currentScene == Scene.InGame)
-        {
-            PlaceEnemyDeck();
-        }
     }
 
     public void ChangeScene(Scene scene)
     {
-        currentScene = scene;
         SceneManager.LoadScene(Enum.GetName(typeof(Scene), scene));
+        currentScene = scene;
+    }
+
+    public void StartNewBattle()
+    {
+        InitialiseEnemyDeck(currentIndex);
+        ChangeScene(Scene.InGame);
+        PlaceEnemyDeck();
+
+    }
+
+    public void ShowRestToast()
+    {
+        toast.SetActive(true);
+        toastText.text = "You take a well earned rest and restore 10 Lifeblood.";
+    }
+
+    public void ShowQuestToast()
+    {
+        toast.SetActive(true);
+        toastText.text = "A local mercenary offers you his services for 4 Lifeblood, do you accept?";
     }
 
     public void InitialiseDeck(int numberOfCards)
@@ -107,8 +125,7 @@ public class GameManager : MonoBehaviour
             int xPos = index % (int)Board.Width;
             int yPos = ((int)Board.Height) - (index / (int)Board.Width) - 1;
 
-            var transforms = GameObject.FindObjectOfType<EnemyBoardPositions>();
-            var enemyCard = Instantiate(cardPrefab, transforms.bp[index]);
+            var enemyCard = Instantiate(cardPrefab, enemyBoardPositions[index]);
 
             CardController enemyCardController = enemyCard.GetComponent<CardController>();
             enemyCardController.card = card;
@@ -121,9 +138,6 @@ public class GameManager : MonoBehaviour
 
             availableLocations.RemoveAt(r);
         }
-
-        
-        placedEnemyDeck = true;
     }
 
 

@@ -49,7 +49,6 @@ public class CardController : MonoBehaviour
     void Update()
     {
         EnsureRenderTextOverCardAlways();
-        FindExternalComponents();
         CheckForDropCard();
         CardBackDescriptionDisplay();
         ResetPowerLevelOnTurnEnd();
@@ -376,36 +375,6 @@ public class CardController : MonoBehaviour
                 DropCard();
             }
 
-        }
-    }
-
-
-    void FindExternalComponents()
-    {
-        if (!gm)
-        {
-            gm = GameManager.instance;
-        }
-
-        if (!deck)
-        {
-            if (gm && gm.currentScene == Scene.InGame)
-            {
-                deck = DeckController.instance;
-            }
-        }
-
-        if (!lbm)
-        {
-            if (gm && gm.currentScene == Scene.InGame)
-            {
-                lbm = LifebloodManager.instance;
-            }
-        }
-
-        if (!sh)
-        {
-            sh = ScreenShake.instance;
         }
     }
 

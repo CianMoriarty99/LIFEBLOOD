@@ -7,6 +7,19 @@ using UnityEngine;
 public class LifebloodManager : MonoBehaviour
 {
     public static LifebloodManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+    }
     public enum PHASE
     {
         PLACEPHASE,
@@ -35,6 +48,8 @@ public class LifebloodManager : MonoBehaviour
 
     public CardController[,] board = new CardController[(int)Board.Width, (int)Board.Height];
 
+    public GameObject parent;
+
 
     public float[] boardSpaceInWorldX;
     public float[] boardSpaceInWorldY;
@@ -48,11 +63,22 @@ public class LifebloodManager : MonoBehaviour
         maxLifeblood = gm.maxLifeblood;
         phase = PHASE.PLACEPHASE;
         refreshAuras = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        switch (GameManager.instance.currentScene)
+        {
+            case Scene.InGame:
+                parent.SetActive(true);
+                break;
+            default:
+                parent.SetActive(false);
+                break;
+        }
 
         lifebloodText.text = (lifeblood - playCostThisTurn).ToString();
 
